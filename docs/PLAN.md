@@ -108,11 +108,11 @@ Adicionar `class="dark"` no `<html>` por padrão.
 **Reaproveitamento PipeFlow:** Login e reset idênticos. Remover `/register`. Adicionar seed inicial.
 
 **Interface primeiro:**
-- [ ] Criar página `/login` com formulário (e-mail + senha) usando shadcn/ui `Form`
-- [ ] Criar página `/forgot-password` com formulário de e-mail
-- [ ] Criar página `/reset-password` para redefinição via link
-- [ ] Adicionar validação client-side com Zod + react-hook-form
-- [ ] Adicionar estados de loading, erro e sucesso nos formulários
+- [x] Criar página `/login` com formulário (e-mail + senha) usando react-hook-form + Zod
+- [x] Criar página `/forgot-password` com formulário de e-mail
+- [x] Criar página `/reset-password` para redefinição via link
+- [x] Adicionar validação client-side com Zod + react-hook-form
+- [x] Adicionar estados de loading, erro e sucesso nos formulários
 
 **Backend:**
 - [ ] Criar Server Actions em `lib/auth/actions.ts` (signIn, signOut, resetPassword)
