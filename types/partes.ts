@@ -1,4 +1,4 @@
-export type TipoParte = 'cliente' | 'reu' | 'vitima' | 'testemunha' | 'autoridade'
+export type TipoParte = 'cliente' | 'reu' | 'vitima' | 'testemunha'
 export type SituacaoPrisional = 'preso' | 'solto' | 'monitorado'
 export type StatusParte = 'ativo' | 'arquivado'
 
@@ -22,13 +22,8 @@ export interface Parte {
   endereco?: string
   tipo: TipoParte
   status: StatusParte
-  // Réu-specific
   situacaoPrisional?: SituacaoPrisional
   unidadePrisional?: string
-  // Autoridade-specific
-  cargo?: string
-  comarca?: string
-  // Relationships
   processosVinculados: ProcessoVinculado[]
   observacoes?: string
   criadoEm: string

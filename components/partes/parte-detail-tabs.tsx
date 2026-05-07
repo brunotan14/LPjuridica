@@ -39,8 +39,6 @@ const editSchema = z.object({
   status: z.enum(['ativo', 'arquivado']),
   situacaoPrisional: z.enum(['preso', 'solto', 'monitorado']).optional(),
   unidadePrisional: z.string().optional(),
-  cargo: z.string().optional(),
-  comarca: z.string().optional(),
 })
 
 type EditFormData = z.infer<typeof editSchema>
@@ -70,8 +68,6 @@ function DadosPessoaisTab({ parte }: { parte: Parte }) {
       status: parte.status,
       situacaoPrisional: parte.situacaoPrisional,
       unidadePrisional: parte.unidadePrisional ?? '',
-      cargo: parte.cargo ?? '',
-      comarca: parte.comarca ?? '',
     },
   })
 
@@ -315,8 +311,8 @@ function DadosPessoaisTab({ parte }: { parte: Parte }) {
           )}
         </div>
 
-        {/* Réu-specific */}
-        {parte.tipo === 'reu' && (
+        {/* Situação prisional — clientes e réus */}
+        {(parte.tipo === 'cliente' || parte.tipo === 'reu') && (
           <div className="rounded-xl border border-red-900/40 bg-red-950/20 p-4 space-y-4">
             <p className="text-xs font-medium uppercase tracking-widest text-red-400">
               Situação Prisional
@@ -371,38 +367,6 @@ function DadosPessoaisTab({ parte }: { parte: Parte }) {
           </div>
         )}
 
-        {/* Autoridade-specific */}
-        {parte.tipo === 'autoridade' && (
-          <div className="rounded-xl border border-emerald-900/40 bg-emerald-950/20 p-4 space-y-4">
-            <p className="text-xs font-medium uppercase tracking-widest text-emerald-400">
-              Informações da autoridade
-            </p>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="block text-[10px] font-medium uppercase tracking-widest text-zinc-500">
-                  Cargo
-                </label>
-                <input
-                  {...register('cargo')}
-                  disabled={!editing}
-                  placeholder="—"
-                  className={inputClass}
-                />
-              </div>
-              <div className="space-y-1.5">
-                <label className="block text-[10px] font-medium uppercase tracking-widest text-zinc-500">
-                  Comarca / Lotação
-                </label>
-                <input
-                  {...register('comarca')}
-                  disabled={!editing}
-                  placeholder="—"
-                  className={inputClass}
-                />
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </form>
   )

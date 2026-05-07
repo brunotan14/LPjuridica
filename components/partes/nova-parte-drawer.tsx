@@ -61,20 +61,18 @@ const schema = z
     telefone: z.string().min(10, 'Telefone obrigatório'),
     email: z.string().email('E-mail inválido').optional().or(z.literal('')),
     endereco: z.string().optional(),
-    tipo: z.enum(['cliente', 'reu', 'vitima', 'testemunha', 'autoridade']),
+    tipo: z.enum(['cliente', 'reu', 'vitima', 'testemunha']),
     status: z.enum(['ativo', 'arquivado']),
     situacaoPrisional: z.enum(['preso', 'solto', 'monitorado']).optional(),
     unidadePrisional: z.string().optional(),
-    cargo: z.string().optional(),
-    comarca: z.string().optional(),
     observacoes: z.string().optional(),
   })
   .refine(
     (data) => {
-      if (data.tipo === 'reu' && !data.situacaoPrisional) return false
+      if ((data.tipo === 'cliente' || data.tipo === 'reu') && !data.situacaoPrisional) return false
       return true
     },
-    { message: 'Situação prisional obrigatória para réus', path: ['situacaoPrisional'] },
+    { message: 'Situação prisional obrigatória', path: ['situacaoPrisional'] },
   )
 
 type FormData = z.infer<typeof schema>
@@ -92,7 +90,6 @@ const tipoOptions: { value: TipoParte; label: string }[] = [
   { value: 'reu', label: 'Réu' },
   { value: 'vitima', label: 'Vítima' },
   { value: 'testemunha', label: 'Testemunha' },
-  { value: 'autoridade', label: 'Autoridade' },
 ]
 
 const situacaoOptions: { value: SituacaoPrisional; label: string }[] = [
@@ -181,8 +178,6 @@ export function NovaParteDrawer({
           status: parte.status,
           situacaoPrisional: parte.situacaoPrisional,
           unidadePrisional: parte.unidadePrisional ?? '',
-          cargo: parte.cargo ?? '',
-          comarca: parte.comarca ?? '',
           observacoes: parte.observacoes ?? '',
         }
       : {
@@ -476,11 +471,11 @@ export function NovaParteDrawer({
               />
             </div>
 
-            {/* ── Réu-specific fields ── */}
-            {tipoWatched === 'reu' && (
+            {/* ── Situação prisional — clientes e réus ── */}
+            {(tipoWatched === 'cliente' || tipoWatched === 'reu') && (
               <div className="space-y-4 rounded-xl border border-red-900/40 bg-red-950/20 p-4">
                 <p className="text-xs font-medium uppercase tracking-widest text-red-400">
-                  Informações do réu
+                  Situação Prisional
                 </p>
 
                 <div className="space-y-1.5">
@@ -523,39 +518,6 @@ export function NovaParteDrawer({
                     />
                   </div>
                 )}
-              </div>
-            )}
-
-            {/* ── Autoridade-specific fields ── */}
-            {tipoWatched === 'autoridade' && (
-              <div className="space-y-4 rounded-xl border border-emerald-900/40 bg-emerald-950/20 p-4">
-                <p className="text-xs font-medium uppercase tracking-widest text-emerald-400">
-                  Informações da autoridade
-                </p>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-1.5">
-                    <label htmlFor="cargo" className="block text-[10px] font-medium uppercase tracking-widest text-zinc-500">
-                      Cargo
-                    </label>
-                    <input
-                      id="cargo"
-                      {...register('cargo')}
-                      placeholder="Ex: Delegado, Promotor..."
-                      className={inputClass}
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label htmlFor="comarca" className="block text-[10px] font-medium uppercase tracking-widest text-zinc-500">
-                      Comarca / Lotação
-                    </label>
-                    <input
-                      id="comarca"
-                      {...register('comarca')}
-                      placeholder="Ex: 1ª Vara Criminal de SP"
-                      className={inputClass}
-                    />
-                  </div>
-                </div>
               </div>
             )}
 

@@ -26,7 +26,6 @@ const tipoTabs: { value: 'todos' | TipoParte; label: string }[] = [
   { value: 'reu', label: 'Réus' },
   { value: 'vitima', label: 'Vítimas' },
   { value: 'testemunha', label: 'Testemunhas' },
-  { value: 'autoridade', label: 'Autoridades' },
 ]
 
 const situacaoPrisionalOptions: { value: 'todos' | SituacaoPrisional; label: string }[] = [

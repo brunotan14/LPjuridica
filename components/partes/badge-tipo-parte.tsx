@@ -23,10 +23,6 @@ const configByTipo: Record<
     label: 'Testemunha',
     className: 'bg-zinc-800 text-zinc-300 border border-zinc-700',
   },
-  autoridade: {
-    label: 'Autoridade',
-    className: 'bg-emerald-950 text-emerald-400 border border-emerald-900',
-  },
 }
 
 interface BadgeTipoParteProps {
