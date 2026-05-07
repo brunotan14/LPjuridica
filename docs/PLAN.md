@@ -65,17 +65,17 @@ Adicionar `class="dark"` no `<html>` por padrão.
 **Objetivo:** Projeto rodando localmente com toda a stack configurada e estrutura de pastas no lugar.
 **Reaproveitamento PipeFlow:** Setup quase idêntico. Remover Stripe, adicionar `date-fns-tz`, `react-big-calendar` e `web-push`.
 
-- [ ] Inicializar projeto com `create-next-app` (TypeScript, App Router, Tailwind)
-- [ ] Configurar `tsconfig.json` com strict mode
-- [ ] Instalar e inicializar shadcn/ui (modo `dark` como padrão)
-- [ ] Criar estrutura de pastas (`app/`, `components/`, `lib/`, `types/`)
-- [ ] Configurar variáveis de ambiente (`.env.local` + `.env.example`)
-- [ ] Conectar projeto ao Supabase (criar projeto, copiar URL e anon key)
-- [ ] Instalar dependências: `@supabase/ssr`, `@dnd-kit/core`, `recharts`, `resend`, `zod`, `date-fns`, `date-fns-tz`, `react-big-calendar`, `web-push`, `react-dropzone`
-- [ ] Configurar `lib/supabase/client.ts` e `lib/supabase/server.ts`
+- [x] Inicializar projeto com `create-next-app` (TypeScript, App Router, Tailwind)
+- [x] Configurar `tsconfig.json` com strict mode
+- [x] Instalar e inicializar shadcn/ui (modo `dark` como padrão)
+- [x] Criar estrutura de pastas (`app/`, `components/`, `lib/`, `types/`)
+- [x] Configurar variáveis de ambiente (`.env.local` + `.env.example`)
+- [x] Conectar projeto ao Supabase (criar projeto, copiar URL e anon key)
+- [x] Instalar dependências: `@supabase/ssr`, `@dnd-kit/core`, `recharts`, `resend`, `zod`, `date-fns`, `date-fns-tz`, `react-big-calendar`, `web-push`, `react-dropzone`
+- [x] Configurar `lib/supabase/client.ts` e `lib/supabase/server.ts`
 - [ ] Configurar `middleware.ts` para proteção de rotas
-- [ ] Configurar ESLint + Prettier
-- [ ] Subir projeto no GitHub
+- [x] Configurar ESLint + Prettier
+- [x] Subir projeto no GitHub
 
 **Commit final:** `chore: project setup with Next.js, Supabase, shadcn/ui and folder structure`
 
@@ -87,15 +87,15 @@ Adicionar `class="dark"` no `<html>` por padrão.
 **Objetivo:** Layout autenticado completo com sidebar, header e navegação — sem dados reais, tudo estático.
 **Reaproveitamento PipeFlow:** Componentes `Sidebar` e `Header` reaproveitados. Mudar links de navegação e adicionar badge de prazo na sidebar.
 
-- [ ] Criar layout base `app/(app)/layout.tsx`
-- [ ] Criar componente `Sidebar` com links de navegação: Dashboard, Partes, Processos, Pipeline, Agenda, Financeiro, Configurações
-- [ ] Adicionar badge numérico na sidebar no link Agenda (prazos críticos do dia — estático por ora)
-- [ ] Adicionar avatar do usuário + menu de conta na sidebar (estático, mockado)
-- [ ] Criar `Header` com título da página, breadcrumb e slot para ações contextuais
-- [ ] Criar páginas vazias (placeholder) para `/dashboard`, `/partes`, `/processos`, `/pipeline`, `/agenda`, `/financeiro`, `/configuracoes`
-- [ ] Aplicar paleta: indigo-600 primário, zinc-950 sidebar, zinc-900 superfície
-- [ ] Garantir responsividade básica (sidebar colapsável em mobile via Sheet/drawer)
-- [ ] Criar `app/(auth)/layout.tsx` com layout centralizado para telas de auth
+- [x] Criar layout base `app/(app)/layout.tsx`
+- [x] Criar componente `Sidebar` com links de navegação: Dashboard, Partes, Processos, Pipeline, Agenda, Financeiro, Configurações
+- [x] Adicionar badge numérico na sidebar no link Agenda (prazos críticos do dia — estático por ora)
+- [x] Adicionar avatar do usuário + menu de conta na sidebar (estático, mockado)
+- [x] Criar `Header` com título da página, breadcrumb e slot para ações contextuais
+- [x] Criar páginas vazias (placeholder) para `/dashboard`, `/partes`, `/processos`, `/pipeline`, `/agenda`, `/financeiro`, `/configuracoes`
+- [x] Aplicar paleta: indigo-600 primário, zinc-950 sidebar, zinc-900 superfície
+- [x] Garantir responsividade básica (sidebar colapsável em mobile via Sheet/drawer)
+- [x] Criar `app/(auth)/layout.tsx` com layout centralizado para telas de auth
 
 **Commit final:** `feat: app shell with sidebar, navigation and base layout`
 
