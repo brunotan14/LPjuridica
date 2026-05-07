@@ -1,16 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Dialog } from '@base-ui/react/dialog'
-import { Select } from '@base-ui/react/select'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/v4'
-import { X, ChevronDown, Check, AlertTriangle, Trash2 } from 'lucide-react'
+import { X, AlertTriangle, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { partesMock } from '@/lib/data/partes'
-import { BadgeTipoParte } from '@/components/partes/badge-tipo-parte'
 import type { Parte, TipoParte, SituacaoPrisional } from '@/types/partes'
 
 // ─── CPF validation ──────────────────────────────────────────────────────────
@@ -157,12 +155,9 @@ export function NovaParteDrawer({
   parte,
   mode = 'create',
 }: NovaParteDrawerProps) {
-  const [cpfDuplicate, setCpfDuplicate] = useState<string | null>(null)
-
   const {
     register,
     handleSubmit,
-    control,
     watch,
     reset,
     setValue,
@@ -198,23 +193,14 @@ export function NovaParteDrawer({
   const situacaoWatched = watch('situacaoPrisional')
   const cpfWatched = watch('cpf')
 
-  useEffect(() => {
+  const cpfDuplicate = (() => {
     const raw = cpfWatched?.replace(/\D/g, '') ?? ''
-    if (raw.length === 11) {
-      const found = partesMock.find(
-        (p) => p.cpf.replace(/\D/g, '') === raw && p.id !== parte?.id,
-      )
-      setCpfDuplicate(found?.nome ?? null)
-    } else {
-      setCpfDuplicate(null)
-    }
-  }, [cpfWatched, parte?.id])
+    if (raw.length !== 11) return null
+    return partesMock.find((p) => p.cpf.replace(/\D/g, '') === raw && p.id !== parte?.id)?.nome ?? null
+  })()
 
   useEffect(() => {
-    if (!open) {
-      reset()
-      setCpfDuplicate(null)
-    }
+    if (!open) reset()
   }, [open, reset])
 
   function onSubmit(_data: FormData) {
@@ -263,47 +249,27 @@ export function NovaParteDrawer({
               <label className="block text-[10px] font-medium uppercase tracking-widest text-zinc-500">
                 Tipo *
               </label>
-              <Controller
-                control={control}
-                name="tipo"
-                render={({ field }) => (
-                  <Select.Root<TipoParte>
-                    value={field.value}
-                    onValueChange={(v) => { if (v) field.onChange(v) }}
+              <div className="flex flex-wrap gap-2">
+                {tipoOptions.map((opt) => (
+                  <label
+                    key={opt.value}
+                    className={cn(
+                      'flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors',
+                      tipoWatched === opt.value
+                        ? 'border-indigo-500 bg-indigo-950 text-indigo-300'
+                        : 'border-zinc-700 bg-zinc-800 text-zinc-300 hover:border-zinc-600 hover:bg-zinc-700',
+                    )}
                   >
-                    <Select.Trigger className="flex w-full items-center justify-between rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-50 outline-none transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30">
-                      <Select.Value placeholder="Selecione o tipo">
-                        {field.value && <BadgeTipoParte tipo={field.value as TipoParte} />}
-                      </Select.Value>
-                      <Select.Icon>
-                        <ChevronDown className="size-4 text-zinc-500" />
-                      </Select.Icon>
-                    </Select.Trigger>
-                    <Select.Portal>
-                      <Select.Positioner>
-                        <Select.Popup className="z-50 overflow-hidden rounded-lg border border-zinc-700 bg-zinc-800 py-1 shadow-xl">
-                          <Select.List>
-                            {tipoOptions.map((opt) => (
-                              <Select.Item
-                                key={opt.value}
-                                value={opt.value}
-                                className="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm text-zinc-300 outline-none transition-colors hover:bg-zinc-700 data-[highlighted]:bg-zinc-700"
-                              >
-                                <Select.ItemIndicator className="flex size-4 items-center justify-center">
-                                  <Check className="size-3 text-indigo-400" />
-                                </Select.ItemIndicator>
-                                <Select.ItemText>
-                                  <BadgeTipoParte tipo={opt.value} />
-                                </Select.ItemText>
-                              </Select.Item>
-                            ))}
-                          </Select.List>
-                        </Select.Popup>
-                      </Select.Positioner>
-                    </Select.Portal>
-                  </Select.Root>
-                )}
-              />
+                    <input
+                      type="radio"
+                      {...register('tipo')}
+                      value={opt.value}
+                      className="sr-only"
+                    />
+                    {opt.label}
+                  </label>
+                ))}
+              </div>
               {errors.tipo && (
                 <p className="text-xs text-red-400">{errors.tipo.message}</p>
               )}
