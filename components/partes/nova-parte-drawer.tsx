@@ -62,6 +62,7 @@ const schema = z
     email: z.string().email('E-mail inválido').optional().or(z.literal('')),
     endereco: z.string().optional(),
     tipo: z.enum(['cliente', 'reu', 'vitima', 'testemunha', 'autoridade']),
+    status: z.enum(['ativo', 'arquivado']),
     situacaoPrisional: z.enum(['preso', 'solto', 'monitorado']).optional(),
     unidadePrisional: z.string().optional(),
     cargo: z.string().optional(),
@@ -177,6 +178,7 @@ export function NovaParteDrawer({
           email: parte.email ?? '',
           endereco: parte.endereco ?? '',
           tipo: parte.tipo,
+          status: parte.status,
           situacaoPrisional: parte.situacaoPrisional,
           unidadePrisional: parte.unidadePrisional ?? '',
           cargo: parte.cargo ?? '',
@@ -185,11 +187,13 @@ export function NovaParteDrawer({
         }
       : {
           tipo: 'cliente',
+          status: 'ativo' as const,
           email: '',
         },
   })
 
   const tipoWatched = watch('tipo')
+  const statusWatched = watch('status')
   const situacaoWatched = watch('situacaoPrisional')
   const cpfWatched = watch('cpf')
 
@@ -273,6 +277,35 @@ export function NovaParteDrawer({
               {errors.tipo && (
                 <p className="text-xs text-red-400">{errors.tipo.message}</p>
               )}
+            </div>
+
+            {/* Status */}
+            <div className="space-y-1.5">
+              <label className="block text-[10px] font-medium uppercase tracking-widest text-zinc-500">
+                Status
+              </label>
+              <div className="flex gap-2">
+                {([
+                  { value: 'ativo', label: 'Ativo', active: 'border-emerald-500 bg-emerald-950 text-emerald-300', inactive: 'border-zinc-700 bg-zinc-800 text-zinc-300 hover:border-zinc-600 hover:bg-zinc-700' },
+                  { value: 'arquivado', label: 'Arquivado', active: 'border-zinc-500 bg-zinc-800 text-zinc-300', inactive: 'border-zinc-700 bg-zinc-800 text-zinc-500 hover:border-zinc-600 hover:bg-zinc-700' },
+                ] as const).map((opt) => (
+                  <label
+                    key={opt.value}
+                    className={cn(
+                      'flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors',
+                      statusWatched === opt.value ? opt.active : opt.inactive,
+                    )}
+                  >
+                    <input
+                      type="radio"
+                      {...register('status')}
+                      value={opt.value}
+                      className="sr-only"
+                    />
+                    {opt.label}
+                  </label>
+                ))}
+              </div>
             </div>
 
             {/* Nome */}

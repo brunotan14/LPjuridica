@@ -36,6 +36,7 @@ const editSchema = z.object({
   naturalidade: z.string().optional(),
   profissao: z.string().optional(),
   endereco: z.string().optional(),
+  status: z.enum(['ativo', 'arquivado']),
   situacaoPrisional: z.enum(['preso', 'solto', 'monitorado']).optional(),
   unidadePrisional: z.string().optional(),
   cargo: z.string().optional(),
@@ -66,6 +67,7 @@ function DadosPessoaisTab({ parte }: { parte: Parte }) {
       naturalidade: parte.naturalidade ?? '',
       profissao: parte.profissao ?? '',
       endereco: parte.endereco ?? '',
+      status: parte.status,
       situacaoPrisional: parte.situacaoPrisional,
       unidadePrisional: parte.unidadePrisional ?? '',
       cargo: parte.cargo ?? '',
@@ -73,6 +75,7 @@ function DadosPessoaisTab({ parte }: { parte: Parte }) {
     },
   })
 
+  const statusWatched = watch('status')
   const situacaoWatched = watch('situacaoPrisional')
 
   function onSubmit(_data: EditFormData) {
@@ -268,6 +271,48 @@ function DadosPessoaisTab({ parte }: { parte: Parte }) {
             placeholder="—"
             className={inputClass}
           />
+        </div>
+
+        {/* Status */}
+        <div className="space-y-1.5">
+          <label className="block text-[10px] font-medium uppercase tracking-widest text-zinc-500">
+            Status
+          </label>
+          {editing ? (
+            <div className="flex gap-2">
+              {([
+                { value: 'ativo', label: 'Ativo', active: 'border-emerald-500 bg-emerald-950 text-emerald-300', inactive: 'border-zinc-700 bg-zinc-800 text-zinc-300 hover:border-zinc-600' },
+                { value: 'arquivado', label: 'Arquivado', active: 'border-zinc-500 bg-zinc-800 text-zinc-300', inactive: 'border-zinc-700 bg-zinc-800 text-zinc-500 hover:border-zinc-600' },
+              ] as const).map((opt) => (
+                <label
+                  key={opt.value}
+                  className={cn(
+                    'flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors',
+                    statusWatched === opt.value ? opt.active : opt.inactive,
+                  )}
+                >
+                  <input
+                    type="radio"
+                    {...register('status')}
+                    value={opt.value}
+                    className="sr-only"
+                  />
+                  {opt.label}
+                </label>
+              ))}
+            </div>
+          ) : (
+            <span
+              className={cn(
+                'inline-flex items-center rounded-full px-2.5 py-1 text-sm font-medium',
+                parte.status === 'ativo'
+                  ? 'border border-emerald-900 bg-emerald-950 text-emerald-400'
+                  : 'border border-zinc-700 bg-zinc-800 text-zinc-500',
+              )}
+            >
+              {parte.status === 'ativo' ? 'Ativo' : 'Arquivado'}
+            </span>
+          )}
         </div>
 
         {/* Réu-specific */}
