@@ -201,18 +201,18 @@
 .lp-btn-shimmer {
   background: linear-gradient(
     90deg,
-    #3a1057 0%,
-    #a36bd6 25%,
-    #c39ce8 50%,
-    #a36bd6 75%,
-    #3a1057 100%
+    #4a2e08 0%,
+    #c9a84c 25%,
+    #e8cc88 50%,
+    #c9a84c 75%,
+    #4a2e08 100%
   );
   background-size: 200% 100%;
   animation: lp-shimmer 6s ease-in-out infinite;
 }
 
 .lp-btn-shimmer:disabled {
-  background: #3a1057;
+  background: #4a2e08;
   animation: none;
 }
 
@@ -221,12 +221,12 @@
 }
 
 .lp-field-input::placeholder {
-  color: #5e4d77;
+  color: #7a6840;
 }
 
 .lp-field-input:focus {
-  border-color: #a36bd6 !important;
-  background: rgba(20, 10, 32, 0.85) !important;
+  border-color: #c9a84c !important;
+  background: rgba(20, 14, 4, 0.85) !important;
 }
 
 /* Animação para prazos críticos (vencendo hoje) */

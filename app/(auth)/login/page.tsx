@@ -19,7 +19,7 @@ type FormData = z.infer<typeof schema>
 const inputStyle: React.CSSProperties = {
   background: 'rgba(20,16,8,0.6)',
   border: '1px solid #3a2d0a',
-  color: '#e8d09a',
+  color: '#ffffff',
 }
 
 export default function LoginPage() {
