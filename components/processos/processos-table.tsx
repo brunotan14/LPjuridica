@@ -205,19 +205,19 @@ export function ProcessosTable({ processos }: ProcessosTableProps) {
         </div>
 
         {/* Search + sigilo filter */}
-        <div className="flex items-center gap-3 border-b border-zinc-800 px-4 py-3">
+        <div className="flex flex-col gap-2 border-b border-zinc-800 px-4 py-3 sm:flex-row sm:items-center sm:gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-600" />
             <input
               type="text"
-              placeholder="Buscar por CNJ, alcunha ou nome da parte..."
+              placeholder="Buscar por CNJ, alcunha ou nome..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-2 pl-9 pr-3 text-sm text-zinc-50 placeholder:text-zinc-600 outline-none transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
             />
           </div>
 
-          <div className="flex gap-1">
+          <div className="flex flex-wrap gap-1">
             {sigiloOptions.map((opt) => (
               <button
                 key={opt.value}

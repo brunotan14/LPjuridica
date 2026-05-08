@@ -153,7 +153,7 @@ function StepProgress({ currentStep }: { currentStep: number }) {
                 </div>
                 <span
                   className={cn(
-                    'text-[9px] font-medium uppercase tracking-widest whitespace-nowrap',
+                    'hidden text-[9px] font-medium uppercase tracking-widest whitespace-nowrap sm:block',
                     isCurrent ? 'text-zinc-300' : 'text-zinc-600',
                   )}
                 >
@@ -473,13 +473,13 @@ export function NovoProcessoDrawer({
                           <div
                             key={tipo.id}
                             className={cn(
-                              'flex items-center justify-between rounded-lg border px-3 py-2.5 transition-colors',
+                              'flex flex-col gap-2 rounded-lg border px-3 py-2.5 transition-colors sm:flex-row sm:items-center sm:justify-between',
                               isSelected
                                 ? 'border-indigo-800 bg-indigo-950/40'
                                 : 'border-zinc-700 bg-zinc-800',
                             )}
                           >
-                            <label className="flex flex-1 cursor-pointer items-center gap-3">
+                            <label className="flex flex-1 cursor-pointer items-start gap-3 sm:items-center">
                               <input
                                 type="checkbox"
                                 checked={isSelected}
@@ -498,9 +498,9 @@ export function NovoProcessoDrawer({
                                     if (isPrincipal) setValue('tipoPrincipal', '')
                                   }
                                 }}
-                                className="size-4 rounded border-zinc-600 accent-indigo-600"
+                                className="mt-0.5 size-4 shrink-0 rounded border-zinc-600 accent-indigo-600 sm:mt-0"
                               />
-                              <div>
+                              <div className="min-w-0">
                                 <span className="text-sm font-medium text-zinc-200">
                                   {tipo.artigo}
                                 </span>
@@ -509,7 +509,7 @@ export function NovoProcessoDrawer({
                             </label>
 
                             {isSelected && (
-                              <label className="ml-3 flex cursor-pointer items-center gap-1.5 text-xs">
+                              <label className="flex cursor-pointer items-center gap-1.5 self-end text-xs sm:ml-3 sm:self-auto">
                                 <input
                                   type="radio"
                                   name="tipoPrincipal"

@@ -184,7 +184,7 @@ function ResumoTab({ processo }: { processo: Processo }) {
         <p className="mb-3 text-xs font-medium uppercase tracking-widest text-zinc-500">
           Partes vinculadas
         </p>
-        <div className="overflow-hidden rounded-xl border border-zinc-800">
+        <div className="overflow-x-auto rounded-xl border border-zinc-800">
           <table className="w-full">
             <thead>
               <tr className="border-b border-zinc-800 bg-zinc-800/40">

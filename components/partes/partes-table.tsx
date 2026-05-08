@@ -218,7 +218,7 @@ export function PartesTable({ partes }: PartesTableProps) {
         </div>
 
         {/* Search + situação filter */}
-        <div className="flex items-center gap-3 border-b border-zinc-800 px-4 py-3">
+        <div className="flex flex-col gap-2 border-b border-zinc-800 px-4 py-3 sm:flex-row sm:items-center sm:gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-600" />
             <input
@@ -231,7 +231,7 @@ export function PartesTable({ partes }: PartesTableProps) {
           </div>
 
           {activeTab === 'reu' && (
-            <div className="flex gap-1">
+            <div className="flex flex-wrap gap-1">
               {situacaoPrisionalOptions.map((opt) => (
                 <button
                   key={opt.value}
