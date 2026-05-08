@@ -86,11 +86,14 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="lp-login-grid" style={{ background: '#08050d' }}>
+    <div
+      className="grid grid-cols-1 md:grid-cols-[1.05fr_1fr] min-h-screen"
+      style={{ background: '#08050d' }}
+    >
 
       {/* ══════════════════════ HERO ══════════════════════ */}
       <aside
-        className="lp-hero flex-col justify-between overflow-hidden relative"
+        className="hidden md:flex flex-col justify-between overflow-hidden relative"
         style={{
           padding: '56px 64px',
           background: `
@@ -212,11 +215,8 @@ export default function LoginPage() {
 
       {/* ══════════════════════ FORM ══════════════════════ */}
       <section
-        className="flex items-center justify-center"
-        style={{
-          padding: '48px',
-          background: 'linear-gradient(180deg, #0e0818 0%, #08050d 100%)',
-        }}
+        className="flex items-center justify-center p-6 md:p-12"
+        style={{ background: 'linear-gradient(180deg, #0e0818 0%, #08050d 100%)' }}
       >
         <form
           onSubmit={handleSubmit(onSubmit)}
