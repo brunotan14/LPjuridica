@@ -7,6 +7,7 @@ import { z } from 'zod'
 import Link from 'next/link'
 import { ArrowLeft, Loader2, MailCheck } from 'lucide-react'
 import { FormField, inputClass } from '@/components/auth/form-field'
+import { AuthShell } from '@/components/auth/auth-shell'
 
 const schema = z.object({
   email: z.string().email('E-mail inválido'),
@@ -32,6 +33,7 @@ export default function ForgotPasswordPage() {
 
   if (submitted) {
     return (
+      <AuthShell>
       <div className="relative overflow-hidden rounded border border-zinc-800/80 bg-zinc-900 px-7 py-10 text-center shadow-2xl shadow-black/30">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent" />
 
@@ -62,10 +64,12 @@ export default function ForgotPasswordPage() {
           Voltar para o login
         </Link>
       </div>
+      </AuthShell>
     )
   }
 
   return (
+    <AuthShell>
     <div className="relative overflow-hidden rounded border border-zinc-800/80 bg-zinc-900 px-7 py-8 shadow-2xl shadow-black/30">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent" />
 
@@ -115,5 +119,6 @@ export default function ForgotPasswordPage() {
         </div>
       </form>
     </div>
+    </AuthShell>
   )
 }

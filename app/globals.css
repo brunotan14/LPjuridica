@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-display: var(--font-display);
+  --font-cinzel: var(--font-cinzel);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-display);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -170,6 +171,62 @@
 
 .animate-auth-in {
   animation: auth-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ─── Login page ──────────────────────────────────────────────────────────── */
+@keyframes lp-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.lp-login-grid {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+}
+
+.lp-hero {
+  display: flex;
+}
+
+@media (max-width: 900px) {
+  .lp-login-grid {
+    grid-template-columns: 1fr;
+  }
+  .lp-hero {
+    display: none !important;
+  }
+}
+
+.lp-btn-shimmer {
+  background: linear-gradient(
+    90deg,
+    #3a1057 0%,
+    #a36bd6 25%,
+    #c39ce8 50%,
+    #a36bd6 75%,
+    #3a1057 100%
+  );
+  background-size: 200% 100%;
+  animation: lp-shimmer 6s ease-in-out infinite;
+}
+
+.lp-btn-shimmer:disabled {
+  background: #3a1057;
+  animation: none;
+}
+
+.lp-field-input {
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.lp-field-input::placeholder {
+  color: #5e4d77;
+}
+
+.lp-field-input:focus {
+  border-color: #a36bd6 !important;
+  background: rgba(20, 10, 32, 0.85) !important;
 }
 
 /* Animação para prazos críticos (vencendo hoje) */
