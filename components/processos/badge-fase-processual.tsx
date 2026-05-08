@@ -19,7 +19,7 @@ const FASE_STYLES: Record<FaseProcessual, string> = {
   denuncia_recebimento: 'bg-orange-950 text-orange-400 border-orange-900',
   instrucao: 'bg-blue-950 text-blue-400 border-blue-900',
   memoriais: 'bg-violet-950 text-violet-400 border-violet-900',
-  sentenca: 'bg-indigo-950 text-indigo-400 border-indigo-900',
+  sentenca: 'bg-[#1a1408] text-primary border-[#100c04]',
   recursos: 'bg-purple-950 text-purple-400 border-purple-900',
   execucao: 'bg-red-950 text-red-400 border-red-900',
   arquivado: 'bg-zinc-900 text-zinc-600 border-zinc-800 opacity-70',

@@ -15,7 +15,7 @@ function buildTimeline(parte: Parte): TimelineEvent[] {
   const events: TimelineEvent[] = [
     {
       id: 'cadastro',
-      icon: <UserPlus className="size-4 text-indigo-400" />,
+      icon: <UserPlus className="size-4 text-primary" />,
       description: 'Parte cadastrada no sistema',
       date: parte.criadoEm,
       author: 'Dr. Leandro',

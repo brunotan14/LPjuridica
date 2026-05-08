@@ -174,7 +174,7 @@ export function PartesTable({ partes }: PartesTableProps) {
         <Button
           size="sm"
           onClick={handleNewParte}
-          className="bg-indigo-600 text-white hover:bg-indigo-500"
+          className="bg-primary text-primary-foreground hover:bg-primary/80"
         >
           + Nova Parte
         </Button>
@@ -197,7 +197,7 @@ export function PartesTable({ partes }: PartesTableProps) {
                 className={cn(
                   'flex shrink-0 items-center gap-1.5 border-b-2 px-3 py-3 text-sm font-medium transition-colors',
                   isActive
-                    ? 'border-indigo-500 text-zinc-50'
+                    ? 'border-primary text-zinc-50'
                     : 'border-transparent text-zinc-500 hover:text-zinc-300',
                 )}
               >
@@ -206,7 +206,7 @@ export function PartesTable({ partes }: PartesTableProps) {
                   className={cn(
                     'rounded-full px-1.5 py-0.5 text-xs',
                     isActive
-                      ? 'bg-indigo-500/20 text-indigo-300'
+                      ? 'bg-primary/20 text-[#e8d09a]'
                       : 'bg-zinc-800 text-zinc-600',
                   )}
                 >
@@ -226,7 +226,7 @@ export function PartesTable({ partes }: PartesTableProps) {
               placeholder="Buscar por nome ou CPF..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-2 pl-9 pr-3 text-sm text-zinc-50 placeholder:text-zinc-600 outline-none transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
+              className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-2 pl-9 pr-3 text-sm text-zinc-50 placeholder:text-zinc-600 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/30"
             />
           </div>
 
@@ -239,7 +239,7 @@ export function PartesTable({ partes }: PartesTableProps) {
                   className={cn(
                     'rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
                     situacaoFilter === opt.value
-                      ? 'bg-indigo-600 text-white'
+                      ? 'bg-primary text-primary-foreground'
                       : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-zinc-300',
                   )}
                 >
@@ -296,7 +296,7 @@ export function PartesTable({ partes }: PartesTableProps) {
                         <div>
                           <Link
                             href={`/partes/${parte.id}`}
-                            className="font-medium text-zinc-50 transition-colors hover:text-indigo-400"
+                            className="font-medium text-zinc-50 transition-colors hover:text-primary"
                           >
                             {parte.nome}
                           </Link>

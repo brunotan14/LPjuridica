@@ -161,7 +161,7 @@ function ResumoTab({ processo }: { processo: Processo }) {
               className={cn(
                 'flex items-center justify-between rounded-xl border px-4 py-3',
                 tipo.principal
-                  ? 'border-indigo-800/60 bg-indigo-950/30'
+                  ? 'border-[#2a1f08]/60 bg-[#1a1408]/30'
                   : 'border-zinc-800 bg-zinc-950/50',
               )}
             >
@@ -170,7 +170,7 @@ function ResumoTab({ processo }: { processo: Processo }) {
                 <span className="ml-2 text-sm text-zinc-400">{tipo.descricao}</span>
               </div>
               {tipo.principal && (
-                <span className="rounded-full border border-indigo-700 bg-indigo-900 px-2 py-0.5 text-[10px] font-medium text-indigo-300">
+                <span className="rounded-full border border-[#3a2d0a] bg-[#100c04] px-2 py-0.5 text-[10px] font-medium text-[#e8d09a]">
                   Principal
                 </span>
               )}
@@ -209,7 +209,7 @@ function ResumoTab({ processo }: { processo: Processo }) {
                     <td className="px-4 py-3">
                       <Link
                         href={`/partes/${parte.parteId}`}
-                        className="text-sm font-medium text-zinc-200 transition-colors hover:text-indigo-400"
+                        className="text-sm font-medium text-zinc-200 transition-colors hover:text-primary"
                       >
                         {parte.nome}
                       </Link>
@@ -278,7 +278,7 @@ export function ProcessoDetailTabs({ processo }: ProcessoDetailTabsProps) {
               className={cn(
                 'flex shrink-0 items-center gap-1.5 border-b-2 px-4 py-3 text-sm font-medium transition-colors',
                 activeTab === tab.id
-                  ? 'border-indigo-500 text-zinc-50'
+                  ? 'border-primary text-zinc-50'
                   : 'border-transparent text-zinc-500 hover:text-zinc-300',
               )}
             >

@@ -118,7 +118,7 @@ const STEPS = [
 
 // ─── Input styles ─────────────────────────────────────────────────────────────
 const inputClass =
-  'w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-50 placeholder:text-zinc-600 outline-none transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 aria-invalid:border-red-500/60'
+  'w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-50 placeholder:text-zinc-600 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/30 aria-invalid:border-red-500/60'
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 interface NovoProcessoDrawerProps {
@@ -143,9 +143,9 @@ function StepProgress({ currentStep }: { currentStep: number }) {
                   className={cn(
                     'flex size-6 items-center justify-center rounded-full text-xs font-medium transition-colors',
                     isCompleted
-                      ? 'bg-indigo-600 text-white'
+                      ? 'bg-primary text-primary-foreground'
                       : isCurrent
-                        ? 'border-2 border-indigo-500 bg-indigo-950 text-indigo-300'
+                        ? 'border-2 border-primary bg-[#1a1408] text-[#e8d09a]'
                         : 'border border-zinc-700 bg-zinc-800 text-zinc-500',
                   )}
                 >
@@ -164,7 +164,7 @@ function StepProgress({ currentStep }: { currentStep: number }) {
                 <div
                   className={cn(
                     'mb-4 h-px flex-1 transition-colors',
-                    isCompleted ? 'bg-indigo-600' : 'bg-zinc-800',
+                    isCompleted ? 'bg-primary' : 'bg-zinc-800',
                   )}
                 />
               )}
@@ -380,7 +380,7 @@ export function NovoProcessoDrawer({
                           className={cn(
                             'flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors',
                             tribunal === t
-                              ? 'border-indigo-500 bg-indigo-950 text-indigo-300'
+                              ? 'border-primary bg-[#1a1408] text-[#e8d09a]'
                               : 'border-zinc-700 bg-zinc-800 text-zinc-300 hover:border-zinc-600 hover:bg-zinc-700',
                           )}
                         >
@@ -475,7 +475,7 @@ export function NovoProcessoDrawer({
                             className={cn(
                               'flex flex-col gap-2 rounded-lg border px-3 py-2.5 transition-colors sm:flex-row sm:items-center sm:justify-between',
                               isSelected
-                                ? 'border-indigo-800 bg-indigo-950/40'
+                                ? 'border-[#2a1f08] bg-[#1a1408]/40'
                                 : 'border-zinc-700 bg-zinc-800',
                             )}
                           >
@@ -498,7 +498,7 @@ export function NovoProcessoDrawer({
                                     if (isPrincipal) setValue('tipoPrincipal', '')
                                   }
                                 }}
-                                className="mt-0.5 size-4 shrink-0 rounded border-zinc-600 accent-indigo-600 sm:mt-0"
+                                className="mt-0.5 size-4 shrink-0 rounded border-zinc-600 accent-[#c9a961] sm:mt-0"
                               />
                               <div className="min-w-0">
                                 <span className="text-sm font-medium text-zinc-200">
@@ -522,7 +522,7 @@ export function NovoProcessoDrawer({
                                   className={cn(
                                     'rounded-full border px-2 py-0.5 transition-colors',
                                     isPrincipal
-                                      ? 'border-indigo-600 bg-indigo-600 text-white'
+                                      ? 'border-primary bg-primary text-primary-foreground'
                                       : 'border-zinc-600 text-zinc-500 hover:border-zinc-500 hover:text-zinc-400',
                                   )}
                                 >
@@ -550,7 +550,7 @@ export function NovoProcessoDrawer({
                       {clientes.map((p) => (
                         <label
                           key={p.id}
-                          className="flex cursor-pointer items-center gap-3 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2.5 transition-colors has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-950/40"
+                          className="flex cursor-pointer items-center gap-3 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2.5 transition-colors has-[:checked]:border-primary has-[:checked]:bg-[#1a1408]/40"
                         >
                           <input
                             type="radio"
@@ -576,7 +576,7 @@ export function NovoProcessoDrawer({
                       Réu
                     </label>
                     <div className="space-y-1.5">
-                      <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2.5 transition-colors has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-950/40">
+                      <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2.5 transition-colors has-[:checked]:border-primary has-[:checked]:bg-[#1a1408]/40">
                         <input
                           type="radio"
                           {...register('reuId')}
@@ -588,7 +588,7 @@ export function NovoProcessoDrawer({
                       {reus.map((p) => (
                         <label
                           key={p.id}
-                          className="flex cursor-pointer items-center gap-3 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2.5 transition-colors has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-950/40"
+                          className="flex cursor-pointer items-center gap-3 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2.5 transition-colors has-[:checked]:border-primary has-[:checked]:bg-[#1a1408]/40"
                         >
                           <input
                             type="radio"
@@ -619,7 +619,7 @@ export function NovoProcessoDrawer({
                             className={cn(
                               'flex cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 transition-colors',
                               isChecked
-                                ? 'border-indigo-500 bg-indigo-950/40'
+                                ? 'border-primary bg-[#1a1408]/40'
                                 : 'border-zinc-700 bg-zinc-800',
                             )}
                           >
@@ -635,7 +635,7 @@ export function NovoProcessoDrawer({
                                     : current.filter((id) => id !== p.id),
                                 )
                               }}
-                              className="size-4 rounded border-zinc-600 accent-indigo-600"
+                              className="size-4 rounded border-zinc-600 accent-[#c9a961]"
                             />
                             <div className="flex-1">
                               <p className="text-sm font-medium text-zinc-200">{p.nome}</p>
@@ -664,7 +664,7 @@ export function NovoProcessoDrawer({
                             className={cn(
                               'flex cursor-pointer items-center gap-3 rounded-lg border px-3 py-2.5 transition-colors',
                               isChecked
-                                ? 'border-indigo-500 bg-indigo-950/40'
+                                ? 'border-primary bg-[#1a1408]/40'
                                 : 'border-zinc-700 bg-zinc-800',
                             )}
                           >
@@ -680,7 +680,7 @@ export function NovoProcessoDrawer({
                                     : current.filter((id) => id !== p.id),
                                 )
                               }}
-                              className="size-4 rounded border-zinc-600 accent-indigo-600"
+                              className="size-4 rounded border-zinc-600 accent-[#c9a961]"
                             />
                             <div className="flex-1">
                               <p className="text-sm font-medium text-zinc-200">{p.nome}</p>
@@ -711,7 +711,7 @@ export function NovoProcessoDrawer({
                           className={cn(
                             'flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors',
                             faseAtual === f.value
-                              ? 'border-indigo-500 bg-indigo-950 text-indigo-300'
+                              ? 'border-primary bg-[#1a1408] text-[#e8d09a]'
                               : 'border-zinc-700 bg-zinc-800 text-zinc-300 hover:border-zinc-600 hover:bg-zinc-700',
                           )}
                         >
@@ -741,7 +741,7 @@ export function NovoProcessoDrawer({
                           className={cn(
                             'flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors',
                             sigilo === s.value
-                              ? 'border-indigo-500 bg-indigo-950 text-indigo-300'
+                              ? 'border-primary bg-[#1a1408] text-[#e8d09a]'
                               : 'border-zinc-700 bg-zinc-800 text-zinc-300 hover:border-zinc-600 hover:bg-zinc-700',
                           )}
                         >
@@ -820,7 +820,7 @@ export function NovoProcessoDrawer({
                 <Button
                   size="sm"
                   onClick={handleNext}
-                  className="bg-indigo-600 text-white hover:bg-indigo-500"
+                  className="bg-primary text-primary-foreground hover:bg-primary/80"
                 >
                   Próximo
                   <ChevronRight className="size-4" />
@@ -830,7 +830,7 @@ export function NovoProcessoDrawer({
                   type="submit"
                   form="novo-processo-form"
                   size="sm"
-                  className="bg-indigo-600 text-white hover:bg-indigo-500"
+                  className="bg-primary text-primary-foreground hover:bg-primary/80"
                 >
                   {mode === 'edit' ? 'Salvar alterações' : 'Cadastrar processo'}
                 </Button>

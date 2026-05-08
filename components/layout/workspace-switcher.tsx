@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { ChevronsUpDown, Check, Building2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { LPMonogram } from '@/components/brand/lp-monogram'
 
 type Workspace = { id: string; name: string; plan: string }
 
@@ -32,9 +33,7 @@ export function WorkspaceSwitcher() {
         onClick={() => setOpen((o) => !o)}
         className="flex w-full items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2.5 text-left transition-colors hover:bg-zinc-800"
       >
-        <div className="flex size-7 shrink-0 items-center justify-center rounded-md bg-indigo-600 text-xs font-bold text-white">
-          LP
-        </div>
+        <LPMonogram size={28} />
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium text-zinc-100">
             {selected.name}
@@ -56,9 +55,7 @@ export function WorkspaceSwitcher() {
                 }}
                 className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 transition-colors hover:bg-zinc-700"
               >
-                <div className="flex size-7 shrink-0 items-center justify-center rounded-md bg-indigo-600 text-xs font-bold text-white">
-                  LP
-                </div>
+                <LPMonogram size={28} />
                 <div className="min-w-0 flex-1 text-left">
                   <p className="truncate text-sm font-medium text-zinc-100">
                     {ws.name}
@@ -66,7 +63,7 @@ export function WorkspaceSwitcher() {
                   <p className="text-xs text-zinc-500">{ws.plan}</p>
                 </div>
                 {selected.id === ws.id && (
-                  <Check className="size-3.5 shrink-0 text-indigo-400" />
+                  <Check className="size-3.5 shrink-0 text-primary" />
                 )}
               </button>
             ))}

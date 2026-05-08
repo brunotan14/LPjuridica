@@ -141,7 +141,7 @@ export function ProcessosTable({ processos }: ProcessosTableProps) {
         <Button
           size="sm"
           onClick={handleNewProcesso}
-          className="bg-indigo-600 text-white hover:bg-indigo-500"
+          className="bg-primary text-primary-foreground hover:bg-primary/80"
         >
           + Novo Processo
         </Button>
@@ -157,7 +157,7 @@ export function ProcessosTable({ processos }: ProcessosTableProps) {
             className={cn(
               'flex shrink-0 items-center gap-1.5 border-b-2 px-3 py-3 text-sm font-medium transition-colors',
               activeTab === 'todos'
-                ? 'border-indigo-500 text-zinc-50'
+                ? 'border-primary text-zinc-50'
                 : 'border-transparent text-zinc-500 hover:text-zinc-300',
             )}
           >
@@ -166,7 +166,7 @@ export function ProcessosTable({ processos }: ProcessosTableProps) {
               className={cn(
                 'rounded-full px-1.5 py-0.5 text-xs',
                 activeTab === 'todos'
-                  ? 'bg-indigo-500/20 text-indigo-300'
+                  ? 'bg-primary/20 text-[#e8d09a]'
                   : 'bg-zinc-800 text-zinc-600',
               )}
             >
@@ -184,7 +184,7 @@ export function ProcessosTable({ processos }: ProcessosTableProps) {
                 className={cn(
                   'flex shrink-0 items-center gap-1.5 border-b-2 px-3 py-3 text-sm font-medium transition-colors',
                   isActive
-                    ? 'border-indigo-500 text-zinc-50'
+                    ? 'border-primary text-zinc-50'
                     : 'border-transparent text-zinc-500 hover:text-zinc-300',
                 )}
               >
@@ -193,7 +193,7 @@ export function ProcessosTable({ processos }: ProcessosTableProps) {
                   className={cn(
                     'rounded-full px-1.5 py-0.5 text-xs',
                     isActive
-                      ? 'bg-indigo-500/20 text-indigo-300'
+                      ? 'bg-primary/20 text-[#e8d09a]'
                       : 'bg-zinc-800 text-zinc-600',
                   )}
                 >
@@ -213,7 +213,7 @@ export function ProcessosTable({ processos }: ProcessosTableProps) {
               placeholder="Buscar por CNJ, alcunha ou nome..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-2 pl-9 pr-3 text-sm text-zinc-50 placeholder:text-zinc-600 outline-none transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
+              className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-2 pl-9 pr-3 text-sm text-zinc-50 placeholder:text-zinc-600 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/30"
             />
           </div>
 
@@ -225,7 +225,7 @@ export function ProcessosTable({ processos }: ProcessosTableProps) {
                 className={cn(
                   'rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
                   sigiloFilter === opt.value
-                    ? 'bg-indigo-600 text-white'
+                    ? 'bg-primary text-primary-foreground'
                     : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-zinc-300',
                 )}
               >
@@ -289,7 +289,7 @@ export function ProcessosTable({ processos }: ProcessosTableProps) {
                           <div>
                             <Link
                               href={`/processos/${processo.id}`}
-                              className="font-mono text-sm font-medium text-zinc-50 transition-colors hover:text-indigo-400"
+                              className="font-mono text-sm font-medium text-zinc-50 transition-colors hover:text-primary"
                             >
                               {processo.numeroCNJ}
                             </Link>

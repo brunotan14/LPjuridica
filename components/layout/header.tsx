@@ -15,8 +15,8 @@ export function Header() {
       <MobileNavTrigger />
 
       {/* Logo — visible on mobile only */}
-      <span className="text-sm font-semibold text-zinc-50 lg:hidden">
-        LP<span className="text-indigo-500">.</span>
+      <span className="font-cinzel text-[13px] tracking-[0.12em] text-[#e8d09a] lg:hidden">
+        LP<span className="text-primary">.</span>
       </span>
 
       {/* Divider on mobile */}

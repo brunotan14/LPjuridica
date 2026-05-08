@@ -64,7 +64,7 @@ export default function ResetPasswordPage() {
 
         <Link
           href="/login"
-          className="flex items-center justify-center rounded border border-indigo-600 bg-indigo-600 px-4 py-2.5 text-sm font-medium tracking-wide text-white transition-all duration-200 hover:border-indigo-500 hover:bg-indigo-500"
+          className="flex items-center justify-center rounded border border-primary bg-primary px-4 py-2.5 text-sm font-medium tracking-wide text-white transition-all duration-200 hover:border-primary/80 hover:bg-primary/80"
         >
           Ir para o login
         </Link>
@@ -76,7 +76,7 @@ export default function ResetPasswordPage() {
   return (
     <AuthShell>
     <div className="relative overflow-hidden rounded border border-zinc-800/80 bg-zinc-900 px-7 py-8 shadow-2xl shadow-black/30">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
       <h1 className="mb-1 font-display text-[26px] font-normal leading-tight text-zinc-50">
         Redefinir senha
@@ -143,7 +143,7 @@ export default function ResetPasswordPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="flex w-full items-center justify-center gap-2 rounded border border-indigo-600 bg-indigo-600 px-4 py-2.5 text-sm font-medium tracking-wide text-white transition-all duration-200 hover:border-indigo-500 hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2 rounded border border-primary bg-primary px-4 py-2.5 text-sm font-medium tracking-wide text-white transition-all duration-200 hover:border-primary/80 hover:bg-primary/80 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? (
               <>

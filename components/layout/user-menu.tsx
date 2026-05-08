@@ -31,7 +31,10 @@ export function UserMenu() {
         onClick={() => setOpen((o) => !o)}
         className="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 transition-colors hover:bg-zinc-800"
       >
-        <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-xs font-bold text-white ring-2 ring-indigo-500/30">
+        <div
+          className="flex size-8 shrink-0 items-center justify-center rounded-full text-xs font-bold"
+          style={{ background: '#1a1408', color: '#e8d09a', boxShadow: '0 0 0 2px rgba(201,169,97,0.35)' }}
+        >
           {MOCK_USER.initials}
         </div>
         <div className="min-w-0 flex-1 text-left">

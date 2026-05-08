@@ -14,7 +14,7 @@ import { BadgeTipoParte } from '@/components/partes/badge-tipo-parte'
 import type { Parte } from '@/types/partes'
 
 const inputClass =
-  'w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-50 placeholder:text-zinc-600 outline-none transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 disabled:opacity-50 disabled:cursor-not-allowed'
+  'w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-50 placeholder:text-zinc-600 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/30 disabled:opacity-50 disabled:cursor-not-allowed'
 
 function formatDate(isoDate: string | undefined): string {
   if (!isoDate) return '—'
@@ -99,7 +99,7 @@ function DadosPessoaisTab({ parte }: { parte: Parte }) {
               type="submit"
               size="sm"
               disabled={isSubmitting}
-              className="bg-indigo-600 text-white hover:bg-indigo-500"
+              className="bg-primary text-primary-foreground hover:bg-primary/80"
             >
               <Save className="size-4" />
               Salvar
@@ -322,7 +322,7 @@ function DadosPessoaisTab({ parte }: { parte: Parte }) {
                 {(['preso', 'solto', 'monitorado'] as const).map((s) => (
                   <label
                     key={s}
-                    className="flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-300 transition-colors has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-950 has-[:checked]:text-indigo-300"
+                    className="flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-300 transition-colors has-[:checked]:border-primary has-[:checked]:bg-[#1a1408] has-[:checked]:text-[#e8d09a]"
                   >
                     <input
                       type="radio"
@@ -452,7 +452,7 @@ function ObservacoesTab({ parte }: { parte: Parte }) {
         }}
         rows={8}
         placeholder="Adicione observações internas sobre esta parte..."
-        className="w-full resize-none rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-sm text-zinc-50 placeholder:text-zinc-600 outline-none transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30"
+        className="w-full resize-none rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-sm text-zinc-50 placeholder:text-zinc-600 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/30"
       />
       <div className="flex items-center justify-between">
         <p className="text-xs text-zinc-600">{value.length} caracteres</p>
@@ -463,7 +463,7 @@ function ObservacoesTab({ parte }: { parte: Parte }) {
             'transition-all',
             saved
               ? 'bg-emerald-600 text-white hover:bg-emerald-600'
-              : 'bg-indigo-600 text-white hover:bg-indigo-500',
+              : 'bg-primary text-primary-foreground hover:bg-primary/80',
           )}
         >
           {saved ? 'Salvo!' : 'Salvar observação'}
@@ -500,7 +500,7 @@ export function ParteDetailTabs({ parte }: ParteDetailTabsProps) {
             className={cn(
               'px-4 py-3 text-sm font-medium transition-colors border-b-2',
               activeTab === tab.id
-                ? 'border-indigo-500 text-zinc-50'
+                ? 'border-primary text-zinc-50'
                 : 'border-transparent text-zinc-500 hover:text-zinc-300',
             )}
           >

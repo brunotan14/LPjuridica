@@ -65,9 +65,9 @@
   --popover: #27272a; /* zinc-800 */
   --popover-foreground: #fafafa;
 
-  /* Primária: indigo-600 */
-  --primary: #4f46e5;
-  --primary-foreground: #fafafa;
+  /* Primária: ouro champanhe */
+  --primary: #c9a961;
+  --primary-foreground: #0a0805;
 
   /* Secundária: zinc-800 */
   --secondary: #27272a;
@@ -87,13 +87,13 @@
   /* Borda: zinc-700 */
   --border: #3f3f46;
   --input: #27272a; /* zinc-800 — fundo dos inputs */
-  --ring: #6366f1; /* indigo-500 — focus ring */
+  --ring: #c9a961; /* ouro — focus ring */
 
   /* Raio base */
   --radius: 0.5rem;
 
   /* Gráficos */
-  --chart-1: #6366f1; /* indigo-500 */
+  --chart-1: #c9a961; /* ouro */
   --chart-2: #10b981; /* emerald-500 */
   --chart-3: #fbbf24; /* amber-400 */
   --chart-4: #f87171; /* red-400 */
@@ -102,12 +102,12 @@
   /* Sidebar */
   --sidebar: #09090b; /* zinc-950 */
   --sidebar-foreground: #d4d4d8; /* zinc-300 */
-  --sidebar-primary: #4f46e5; /* indigo-600 */
-  --sidebar-primary-foreground: #fafafa;
+  --sidebar-primary: #c9a961; /* ouro */
+  --sidebar-primary-foreground: #0a0805;
   --sidebar-accent: #27272a; /* zinc-800 — link ativo */
   --sidebar-accent-foreground: #fafafa;
   --sidebar-border: #3f3f46; /* zinc-700 */
-  --sidebar-ring: #6366f1; /* indigo-500 */
+  --sidebar-ring: #c9a961; /* ouro */
 }
 
 /* .dark replica :root pois o tema padrão já é escuro */
@@ -118,8 +118,8 @@
   --card-foreground: #fafafa;
   --popover: #27272a;
   --popover-foreground: #fafafa;
-  --primary: #4f46e5;
-  --primary-foreground: #fafafa;
+  --primary: #c9a961;
+  --primary-foreground: #0a0805;
   --secondary: #27272a;
   --secondary-foreground: #d4d4d8;
   --muted: #27272a;
@@ -129,20 +129,20 @@
   --destructive: #ef4444;
   --border: #3f3f46;
   --input: #27272a;
-  --ring: #6366f1;
-  --chart-1: #6366f1;
+  --ring: #c9a961;
+  --chart-1: #c9a961;
   --chart-2: #10b981;
   --chart-3: #fbbf24;
   --chart-4: #f87171;
   --chart-5: #71717a;
   --sidebar: #09090b;
   --sidebar-foreground: #d4d4d8;
-  --sidebar-primary: #4f46e5;
-  --sidebar-primary-foreground: #fafafa;
+  --sidebar-primary: #c9a961;
+  --sidebar-primary-foreground: #0a0805;
   --sidebar-accent: #27272a;
   --sidebar-accent-foreground: #fafafa;
   --sidebar-border: #3f3f46;
-  --sidebar-ring: #6366f1;
+  --sidebar-ring: #c9a961;
 }
 
 @layer base {

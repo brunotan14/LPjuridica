@@ -8,7 +8,7 @@ const configByTipo: Record<
 > = {
   cliente: {
     label: 'Cliente',
-    className: 'bg-indigo-950 text-indigo-400 border border-indigo-800',
+    className: 'bg-[#1a1408] text-primary border border-[#2a1f08]',
   },
   reu: {
     label: 'Réu',

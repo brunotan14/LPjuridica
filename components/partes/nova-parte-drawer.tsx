@@ -100,7 +100,7 @@ const situacaoOptions: { value: SituacaoPrisional; label: string }[] = [
 
 // ─── Input styles ─────────────────────────────────────────────────────────────
 const inputClass =
-  'w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-50 placeholder:text-zinc-600 outline-none transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 aria-invalid:border-red-500/60'
+  'w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-50 placeholder:text-zinc-600 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/30 aria-invalid:border-red-500/60'
 
 // ─── Delete Confirm Dialog ────────────────────────────────────────────────────
 function DeleteConfirmDialog({ onConfirm }: { onConfirm: () => void }) {
@@ -255,7 +255,7 @@ export function NovaParteDrawer({
                     className={cn(
                       'flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors',
                       tipoWatched === opt.value
-                        ? 'border-indigo-500 bg-indigo-950 text-indigo-300'
+                        ? 'border-primary bg-[#1a1408] text-[#e8d09a]'
                         : 'border-zinc-700 bg-zinc-800 text-zinc-300 hover:border-zinc-600 hover:bg-zinc-700',
                     )}
                   >
@@ -486,7 +486,7 @@ export function NovaParteDrawer({
                     {situacaoOptions.map((opt) => (
                       <label
                         key={opt.value}
-                        className="flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-300 transition-colors has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-950 has-[:checked]:text-indigo-300"
+                        className="flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-300 transition-colors has-[:checked]:border-primary has-[:checked]:bg-[#1a1408] has-[:checked]:text-[#e8d09a]"
                       >
                         <input
                           type="radio"
@@ -554,7 +554,7 @@ export function NovaParteDrawer({
                 form="nova-parte-form"
                 size="sm"
                 disabled={isSubmitting}
-                className="bg-indigo-600 text-white hover:bg-indigo-500"
+                className="bg-primary text-primary-foreground hover:bg-primary/80"
               >
                 {isSubmitting ? 'Salvando...' : 'Salvar'}
               </Button>

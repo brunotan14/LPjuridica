@@ -4,17 +4,15 @@ import { NAV_ITEMS } from '@/lib/nav'
 import { NavLink } from './nav-link'
 import { WorkspaceSwitcher } from './workspace-switcher'
 import { UserMenu } from './user-menu'
-import { Scale } from 'lucide-react'
+import { LPMonogram } from '@/components/brand/lp-monogram'
 
 export function Sidebar() {
   return (
     <aside className="flex h-full w-64 shrink-0 flex-col border-r border-zinc-800 bg-zinc-950">
       {/* Logo */}
       <div className="flex h-14 items-center gap-2.5 border-b border-zinc-800 px-5">
-        <div className="flex size-7 items-center justify-center rounded-lg bg-indigo-600">
-          <Scale className="size-3.5 text-white" />
-        </div>
-        <span className="text-sm font-semibold text-zinc-50">LP Jurídica</span>
+        <LPMonogram size={30} />
+        <span className="font-cinzel text-[13px] tracking-[0.12em] text-[#e8d09a]">LP Jurídica</span>
       </div>
 
       {/* Workspace switcher */}
