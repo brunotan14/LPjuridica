@@ -1,11 +1,18 @@
 import type { Metadata } from 'next'
-import { Cormorant_Garamond, Outfit, Geist_Mono } from 'next/font/google'
+import { Jost, Fraunces, Outfit, Geist_Mono } from 'next/font/google'
 import './globals.css'
 
-const cormorant = Cormorant_Garamond({
+const jost = Jost({
+  variable: '--font-cinzel',
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700'],
+  display: 'swap',
+})
+
+const fraunces = Fraunces({
   variable: '--font-display',
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
+  weight: ['300', '400', '500', '600', '700'],
   style: ['normal', 'italic'],
   display: 'swap',
 })
@@ -35,7 +42,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${cormorant.variable} ${outfit.variable} ${geistMono.variable} dark h-full antialiased`}
+      className={`${jost.variable} ${fraunces.variable} ${outfit.variable} ${geistMono.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
