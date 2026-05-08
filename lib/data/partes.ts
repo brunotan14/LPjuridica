@@ -19,8 +19,8 @@ export const partesMock: Parte[] = [
     situacaoPrisional: 'preso',
     unidadePrisional: 'Penitenciária de Tremembé - Bloco A',
     processosVinculados: [
-      { id: 'proc-001', numero: '0012345-67.2024.8.26.0050', papel: 'Réu' },
-      { id: 'proc-004', numero: '0045678-12.2023.8.26.0100', papel: 'Denunciado' },
+      { id: 'proc-001', numero: '0012345-67.2024.8.26.0050', papel: 'Cliente' },
+      { id: 'proc-004', numero: '0045678-12.2023.8.26.0100', papel: 'Cliente' },
     ],
     observacoes: 'Cliente prioritário. Preso preventivamente desde 03/2024. Visitas às terças e quintas.',
     criadoEm: '2024-01-15T10:00:00Z',
@@ -42,7 +42,8 @@ export const partesMock: Parte[] = [
     status: 'ativo',
     situacaoPrisional: 'monitorado',
     processosVinculados: [
-      { id: 'proc-002', numero: '0023456-78.2024.8.19.0001', papel: 'Investigada' },
+      { id: 'proc-002', numero: '0023456-78.2024.8.19.0001', papel: 'Cliente' },
+      { id: 'proc-006', numero: '0067890-34.2024.4.03.6100', papel: 'Cliente' },
     ],
     criadoEm: '2024-02-08T09:00:00Z',
     atualizadoEm: '2024-10-15T11:00:00Z',
@@ -63,7 +64,8 @@ export const partesMock: Parte[] = [
     status: 'ativo',
     situacaoPrisional: 'solto',
     processosVinculados: [
-      { id: 'proc-003', numero: '0034567-89.2023.8.13.0024', papel: 'Acusado' },
+      { id: 'proc-003', numero: '0034567-89.2023.8.13.0024', papel: 'Cliente' },
+      { id: 'proc-005', numero: '0056789-23.2022.8.26.0050', papel: 'Cliente' },
     ],
     observacoes: 'Proprietário de rede de mercados. Processo relacionado a questão tributária com desdobramento criminal.',
     criadoEm: '2023-09-10T14:00:00Z',
@@ -84,7 +86,9 @@ export const partesMock: Parte[] = [
     tipo: 'cliente',
     status: 'arquivado',
     situacaoPrisional: 'solto',
-    processosVinculados: [],
+    processosVinculados: [
+      { id: 'proc-007', numero: '0078901-45.2021.8.26.0114', papel: 'Cliente' },
+    ],
     criadoEm: '2023-05-20T08:00:00Z',
     atualizadoEm: '2024-03-01T10:00:00Z',
   },
@@ -107,6 +111,7 @@ export const partesMock: Parte[] = [
     unidadePrisional: 'Penitenciária de Tremembé - Bloco B',
     processosVinculados: [
       { id: 'proc-001', numero: '0012345-67.2024.8.26.0050', papel: 'Réu' },
+      { id: 'proc-010', numero: '0001234-89.2024.8.26.0050', papel: 'Réu' },
     ],
     observacoes: 'Preso preventivamente desde 03/2024. Visitas permitidas às terças e quintas.',
     criadoEm: '2024-03-01T15:00:00Z',
@@ -128,7 +133,8 @@ export const partesMock: Parte[] = [
     status: 'ativo',
     situacaoPrisional: 'solto',
     processosVinculados: [
-      { id: 'proc-002', numero: '0023456-78.2024.8.19.0001', papel: 'Corréu' },
+      { id: 'proc-002', numero: '0023456-78.2024.8.19.0001', papel: 'Réu' },
+      { id: 'proc-009', numero: '0090123-67.2020.8.26.0050', papel: 'Réu' },
     ],
     criadoEm: '2024-02-15T11:00:00Z',
     atualizadoEm: '2024-10-20T13:00:00Z',
@@ -150,6 +156,7 @@ export const partesMock: Parte[] = [
     situacaoPrisional: 'monitorado',
     processosVinculados: [
       { id: 'proc-003', numero: '0034567-89.2023.8.13.0024', papel: 'Ré' },
+      { id: 'proc-008', numero: '0089012-56.2023.8.13.0079', papel: 'Ré' },
     ],
     observacoes: 'Monitoramento eletrônico ativo. Proibida de se ausentar do município sem autorização judicial.',
     criadoEm: '2023-10-05T10:00:00Z',
@@ -173,6 +180,7 @@ export const partesMock: Parte[] = [
     status: 'ativo',
     processosVinculados: [
       { id: 'proc-001', numero: '0012345-67.2024.8.26.0050', papel: 'Vítima' },
+      { id: 'proc-010', numero: '0001234-89.2024.8.26.0050', papel: 'Vítima' },
     ],
     observacoes: 'Prestou depoimento em 05/2024. Disponível para testemunhar em audiência.',
     criadoEm: '2024-03-10T10:00:00Z',
@@ -195,6 +203,7 @@ export const partesMock: Parte[] = [
     processosVinculados: [
       { id: 'proc-002', numero: '0023456-78.2024.8.19.0001', papel: 'Vítima' },
       { id: 'proc-004', numero: '0045678-12.2023.8.26.0100', papel: 'Vítima' },
+      { id: 'proc-008', numero: '0089012-56.2023.8.13.0079', papel: 'Vítima' },
     ],
     criadoEm: '2024-01-20T16:00:00Z',
     atualizadoEm: '2024-09-05T11:00:00Z',
@@ -217,6 +226,7 @@ export const partesMock: Parte[] = [
     status: 'ativo',
     processosVinculados: [
       { id: 'proc-003', numero: '0034567-89.2023.8.13.0024', papel: 'Testemunha da defesa' },
+      { id: 'proc-009', numero: '0090123-67.2020.8.26.0050', papel: 'Testemunha da defesa' },
     ],
     criadoEm: '2023-11-01T09:00:00Z',
     atualizadoEm: '2024-07-10T15:00:00Z',
@@ -237,6 +247,8 @@ export const partesMock: Parte[] = [
     status: 'ativo',
     processosVinculados: [
       { id: 'proc-004', numero: '0045678-12.2023.8.26.0100', papel: 'Testemunha da acusação' },
+      { id: 'proc-009', numero: '0090123-67.2020.8.26.0050', papel: 'Testemunha da acusação' },
+      { id: 'proc-010', numero: '0001234-89.2024.8.26.0050', papel: 'Testemunha da acusação' },
     ],
     criadoEm: '2023-08-15T14:00:00Z',
     atualizadoEm: '2024-06-22T10:00:00Z',
