@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Loader2 } from 'lucide-react'
+import { LPMonogram } from '@/components/brand/lp-monogram'
 
 const schema = z.object({
   email: z.string().min(1, 'Campo obrigatório'),
@@ -15,58 +16,10 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
-function LPMonogram() {
-  return (
-    <svg viewBox="0 0 100 100" width="42" height="42" aria-label="LP">
-      <defs>
-        <linearGradient id="lp_grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#3a1057" />
-          <stop offset="35%" stopColor="#a36bd6" />
-          <stop offset="55%" stopColor="#6a2bb0" />
-          <stop offset="80%" stopColor="#c39ce8" />
-          <stop offset="100%" stopColor="#3a1057" />
-        </linearGradient>
-        <linearGradient id="lp_shine" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#fff" stopOpacity="0.18" />
-          <stop offset="60%" stopColor="#fff" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <g transform="translate(50,50)">
-        <path d="M 0 -42 L 30 0 L 0 42 L -30 0 Z" fill="url(#lp_grad)" />
-        <path d="M 0 -42 L 30 0 L 0 42 L -30 0 Z" fill="url(#lp_shine)" />
-        <path
-          d="M 0 -34 L 24 0 L 0 34 L -24 0 Z"
-          fill="none"
-          stroke="#1a0a28"
-          strokeWidth="0.6"
-          opacity="0.6"
-        />
-        <g transform="translate(-9,0)">
-          <path
-            d="M -10 -22 L -3 -22 L -3 16 L 16 16 L 16 22 L -10 22 Z"
-            fill="#0a0610"
-            stroke="#c39ce8"
-            strokeWidth="0.8"
-          />
-          <rect x="-13" y="-23" width="6" height="2" fill="#c39ce8" />
-        </g>
-        <g transform="translate(6,4) rotate(-8)">
-          <path
-            d="M -5 -17 C -7 -13 -8 -5 -6 4 C -4 13 1 17 11 18 L 16 18 L 16 14 L 11 13 C 3 12 -2 7 -3 2 C -5 -5 -3 -12 -1 -17 Z"
-            fill="url(#lp_grad)"
-            stroke="#c39ce8"
-            strokeWidth="0.4"
-          />
-        </g>
-      </g>
-    </svg>
-  )
-}
-
 const inputStyle: React.CSSProperties = {
-  background: 'rgba(20,10,32,0.6)',
-  border: '1px solid #3a1d5c',
-  color: '#c39ce8',
+  background: 'rgba(20,16,8,0.6)',
+  border: '1px solid #3a2d0a',
+  color: '#e8d09a',
 }
 
 export default function LoginPage() {
@@ -88,7 +41,7 @@ export default function LoginPage() {
   return (
     <div
       className="grid grid-cols-1 md:grid-cols-[1.05fr_1fr] min-h-screen"
-      style={{ background: '#08050d' }}
+      style={{ background: '#050505' }}
     >
 
       {/* ══════════════════════ HERO ══════════════════════ */}
@@ -97,9 +50,9 @@ export default function LoginPage() {
         style={{
           padding: '56px 64px',
           background: `
-            radial-gradient(ellipse at 30% 30%, rgba(106,43,176,0.22) 0%, transparent 55%),
-            radial-gradient(ellipse at 70% 80%, rgba(58,16,87,0.45) 0%, transparent 60%),
-            linear-gradient(180deg, #08050d 0%, #0e0818 100%)
+            radial-gradient(ellipse at 30% 30%, rgba(201,169,97,0.18) 0%, transparent 55%),
+            radial-gradient(ellipse at 70% 80%, rgba(61,45,15,0.55) 0%, transparent 60%),
+            linear-gradient(180deg, #050505 0%, #0f0c08 100%)
           `,
         }}
       >
@@ -117,24 +70,24 @@ export default function LoginPage() {
             pointerEvents: 'none',
           }}
         >
-          <path d="M 400 100 L 700 400 L 400 700 L 100 400 Z" fill="none" stroke="#a36bd6" strokeWidth="1" />
-          <path d="M 400 180 L 620 400 L 400 620 L 180 400 Z" fill="none" stroke="#a36bd6" strokeWidth="1" />
-          <path d="M 400 260 L 540 400 L 400 540 L 260 400 Z" fill="none" stroke="#a36bd6" strokeWidth="1" />
+          <path d="M 400 100 L 700 400 L 400 700 L 100 400 Z" fill="none" stroke="#c9a961" strokeWidth="1" />
+          <path d="M 400 180 L 620 400 L 400 620 L 180 400 Z" fill="none" stroke="#c9a961" strokeWidth="1" />
+          <path d="M 400 260 L 540 400 L 400 540 L 260 400 Z" fill="none" stroke="#c9a961" strokeWidth="1" />
         </svg>
 
         {/* Topo: monograma + nome */}
         <div className="relative z-10 flex items-center gap-3.5">
-          <LPMonogram />
+          <LPMonogram size={42} />
           <div>
             <div
               className="font-cinzel text-[16px] tracking-[0.16em]"
-              style={{ color: '#c39ce8' }}
+              style={{ color: '#e8d09a' }}
             >
               LEANDRO PEDROSA
             </div>
             <div
               className="font-display text-[11px] tracking-[0.28em] uppercase mt-0.5"
-              style={{ color: '#8a73a8' }}
+              style={{ color: '#b8985a' }}
             >
               Advocacia&nbsp;e&nbsp;Assessoria&nbsp;Jurídica
             </div>
@@ -145,7 +98,7 @@ export default function LoginPage() {
         <div className="relative z-10" style={{ maxWidth: 520 }}>
           <div
             className="font-cinzel text-[13px] tracking-[0.32em] uppercase mb-[18px]"
-            style={{ color: '#a36bd6' }}
+            style={{ color: '#c9a961' }}
           >
             Plataforma&nbsp;Interna&nbsp;·&nbsp;v.&nbsp;2.4
           </div>
@@ -156,7 +109,7 @@ export default function LoginPage() {
               lineHeight: 1.1,
               letterSpacing: '0.03em',
               background:
-                'linear-gradient(180deg, #3a1057 0%, #a36bd6 35%, #6a2bb0 55%, #c39ce8 75%, #3a1057 100%)',
+                'linear-gradient(180deg, #3d2d0f 0%, #c9a961 35%, #8b6f1f 55%, #f5e6b8 75%, #3d2d0f 100%)',
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -182,13 +135,13 @@ export default function LoginPage() {
               className="flex-1 h-px"
               style={{
                 background:
-                  'linear-gradient(90deg, transparent 0%, #6a2bb0 20%, #c39ce8 50%, #6a2bb0 80%, transparent 100%)',
+                  'linear-gradient(90deg, transparent 0%, #8b6f1f 20%, #f5e6b8 50%, #8b6f1f 80%, transparent 100%)',
                 opacity: 0.7,
               }}
             />
             <span
               className="font-display text-[14px] tracking-[0.18em] uppercase"
-              style={{ color: '#8a73a8' }}
+              style={{ color: '#b8985a' }}
             >
               Sigilo&nbsp;·&nbsp;Disciplina&nbsp;·&nbsp;Estratégia
             </span>
@@ -196,7 +149,7 @@ export default function LoginPage() {
               className="flex-1 h-px"
               style={{
                 background:
-                  'linear-gradient(90deg, transparent 0%, #6a2bb0 20%, #c39ce8 50%, #6a2bb0 80%, transparent 100%)',
+                  'linear-gradient(90deg, transparent 0%, #8b6f1f 20%, #f5e6b8 50%, #8b6f1f 80%, transparent 100%)',
                 opacity: 0.7,
               }}
             />
@@ -206,7 +159,7 @@ export default function LoginPage() {
         {/* Rodapé */}
         <div
           className="relative z-10 flex justify-between text-[12px] tracking-[0.04em]"
-          style={{ color: '#5e4d77' }}
+          style={{ color: '#6b5b3a' }}
         >
           <span>© 2026 Leandro Pedrosa Advocacia.</span>
           <span>Acesso restrito&nbsp;·&nbsp;Conexão segura TLS 1.3</span>
@@ -216,7 +169,7 @@ export default function LoginPage() {
       {/* ══════════════════════ FORM ══════════════════════ */}
       <section
         className="flex items-center justify-center p-6 md:p-12"
-        style={{ background: 'linear-gradient(180deg, #0e0818 0%, #08050d 100%)' }}
+        style={{ background: 'linear-gradient(180deg, #0f0c08 0%, #050505 100%)' }}
       >
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -227,7 +180,7 @@ export default function LoginPage() {
           {/* Eyebrow */}
           <div
             className="font-display text-[12px] tracking-[0.32em] uppercase"
-            style={{ color: '#a36bd6' }}
+            style={{ color: '#c9a961' }}
           >
             Acesso
           </div>
@@ -235,7 +188,7 @@ export default function LoginPage() {
           {/* Título */}
           <h1
             className="font-cinzel font-light mt-2 mb-1.5"
-            style={{ fontSize: 36, letterSpacing: '0.04em', color: '#c39ce8' }}
+            style={{ fontSize: 36, letterSpacing: '0.04em', color: '#e8d09a' }}
           >
             Bem-vindo de volta
           </h1>
@@ -243,7 +196,7 @@ export default function LoginPage() {
           {/* Subtítulo */}
           <p
             className="text-[14px] leading-relaxed mb-9"
-            style={{ color: '#8a73a8' }}
+            style={{ color: '#b8985a' }}
           >
             Acesse o painel para gerir processos, audiências e prazos.
           </p>
@@ -253,14 +206,14 @@ export default function LoginPage() {
             <label
               htmlFor="email"
               className="block font-cinzel text-[11px] tracking-[0.16em] uppercase mb-2"
-              style={{ color: '#8a73a8' }}
+              style={{ color: '#b8985a' }}
             >
               OAB ou e-mail
             </label>
             <div className="relative">
               <span
                 className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
-                style={{ color: '#a36bd6' }}
+                style={{ color: '#c9a961' }}
                 aria-hidden="true"
               >
                 <svg
@@ -293,14 +246,14 @@ export default function LoginPage() {
             <label
               htmlFor="password"
               className="block font-cinzel text-[11px] tracking-[0.16em] uppercase mb-2"
-              style={{ color: '#8a73a8' }}
+              style={{ color: '#b8985a' }}
             >
               Senha
             </label>
             <div className="relative">
               <span
                 className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
-                style={{ color: '#a36bd6' }}
+                style={{ color: '#c9a961' }}
                 aria-hidden="true"
               >
                 <svg
@@ -337,7 +290,7 @@ export default function LoginPage() {
                     width="16"
                     height="16"
                     fill="none"
-                    stroke="#8a73a8"
+                    stroke="#b8985a"
                     strokeWidth="1.6"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -350,7 +303,7 @@ export default function LoginPage() {
                     width="16"
                     height="16"
                     fill="none"
-                    stroke="#8a73a8"
+                    stroke="#b8985a"
                     strokeWidth="1.6"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -367,7 +320,7 @@ export default function LoginPage() {
             <button
               type="button"
               className="flex items-center gap-2 text-[13px] cursor-pointer select-none bg-transparent border-none p-0"
-              style={{ color: '#8a73a8' }}
+              style={{ color: '#b8985a' }}
               onClick={() => setRemember((v) => !v)}
             >
               <span
@@ -375,8 +328,8 @@ export default function LoginPage() {
                 style={{
                   width: 16,
                   height: 16,
-                  border: `1px solid ${remember ? '#a36bd6' : '#3a1d5c'}`,
-                  background: remember ? '#6a2bb0' : 'transparent',
+                  border: `1px solid ${remember ? '#c9a961' : '#3a2d0a'}`,
+                  background: remember ? '#8b6f1f' : 'transparent',
                   flexShrink: 0,
                 }}
               >
@@ -400,9 +353,9 @@ export default function LoginPage() {
             <Link
               href="/forgot-password"
               className="text-[13px] transition-colors"
-              style={{ color: '#a36bd6' }}
-              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#c39ce8')}
-              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#a36bd6')}
+              style={{ color: '#c9a961' }}
+              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#e8d09a')}
+              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#c9a961')}
             >
               Esqueci minha senha
             </Link>
@@ -412,12 +365,12 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="lp-btn-shimmer w-full rounded border-none text-white font-cinzel font-medium tracking-[0.22em] uppercase flex items-center justify-center gap-3 transition-transform hover:enabled:-translate-y-px"
+            className="lp-btn-shimmer w-full rounded border-none font-cinzel font-medium tracking-[0.22em] uppercase flex items-center justify-center gap-3 transition-transform hover:enabled:-translate-y-px"
             style={{
               padding: '15px 20px',
               fontSize: 14,
               boxShadow:
-                '0 8px 32px rgba(106,43,176,0.35), inset 0 1px 0 rgba(255,255,255,0.15)',
+                '0 8px 32px rgba(201,169,97,0.35), inset 0 1px 0 rgba(255,255,255,0.25)',
             }}
           >
             {isSubmitting ? (
@@ -433,7 +386,7 @@ export default function LoginPage() {
                   width="14"
                   height="14"
                   fill="none"
-                  stroke="white"
+                  stroke="#0a0a0a"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -448,8 +401,8 @@ export default function LoginPage() {
           <div
             className="mt-9 pt-6 flex justify-between items-center text-[12px] tracking-[0.04em]"
             style={{
-              borderTop: '1px solid #2a1645',
-              color: '#5e4d77',
+              borderTop: '1px solid #2a2010',
+              color: '#6b5b3a',
             }}
           >
             <span>Acesso restrito&nbsp;·&nbsp;uso exclusivo do escritório</span>
