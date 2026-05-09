@@ -21,7 +21,7 @@ export const NAV_ITEMS: NavItem[] = [
   { href: '/partes', label: 'Partes', icon: Users },
   { href: '/processos', label: 'Processos', icon: FolderOpen },
   { href: '/pipeline', label: 'Pipeline', icon: Columns3 },
-  { href: '/agenda', label: 'Agenda', icon: CalendarClock, badge: 3 },
+  { href: '/agenda', label: 'Agenda', icon: CalendarClock },
   { href: '/financeiro', label: 'Financeiro', icon: Banknote },
   { href: '/configuracoes', label: 'Configurações', icon: Settings },
 ]
