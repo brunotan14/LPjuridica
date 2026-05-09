@@ -133,23 +133,22 @@ Adicionar `class="dark"` no `<html>` por padrão.
 **Reaproveitamento PipeFlow:** Estrutura de CRUD/listagem/busca/paginação do M4 (Leads). Formulário e campos são novos (CPF, situação prisional, etc.).
 
 **Interface primeiro:**
-- [ ] Criar página `/partes` com tabela (nome, CPF, papel principal, telefone, processos vinculados, situação)
-- [ ] Tabs/filtros por tipo: Todos | Clientes | Réus | Vítimas | Testemunhas | Autoridades
-- [ ] Barra de busca (nome, CPF)
-- [ ] Filtro adicional: situação prisional (para réus)
-- [ ] Criar drawer/modal "Nova Parte" com formulário dinâmico:
+- [x] Criar página `/partes` com tabela (nome, CPF, papel principal, telefone, processos vinculados, situação)
+- [x] Tabs/filtros por tipo: Todos | Clientes | Réus | Vítimas | Testemunhas (Autoridades removido em `761b86b`)
+- [x] Barra de busca (nome, CPF)
+- [x] Filtro adicional: situação prisional (para réus)
+- [x] Criar drawer/modal "Nova Parte" com formulário dinâmico:
   - Campos comuns: nome, CPF (com máscara e validação de dígito verificador), RG, data de nascimento, filiação, naturalidade, profissão, telefone, e-mail, endereço
-  - Tipo de parte (select): Cliente, Réu, Vítima, Testemunha, Autoridade
+  - Tipo de parte (select): Cliente, Réu, Vítima, Testemunha
   - Campos condicionais para Réu: situação prisional, unidade prisional (se preso)
-  - Campos condicionais para Autoridade: cargo, comarca de atuação
-- [ ] Criar página `/partes/[id]` com abas:
+- [x] Criar página `/partes/[id]` com abas:
   - Dados Pessoais (formulário de edição inline)
   - Processos Vinculados (lista com papel em cada processo)
   - Observações (notas livres, textarea)
-- [ ] Indicador visual para parte com múltiplos papéis
-- [ ] Estados vazios (empty state) para listagem sem partes
-- [ ] Paginação na listagem
-- [ ] Alerta de duplicidade por CPF (avisa ao digitar, não bloqueia o cadastro)
+- [x] Indicador visual para parte com múltiplos papéis
+- [x] Estados vazios (empty state) para listagem sem partes
+- [x] Paginação na listagem
+- [x] Alerta de duplicidade por CPF (avisa ao digitar, não bloqueia o cadastro)
 
 **Banco de dados:**
 - [ ] Migration: tabela `partes` com RLS por `office_id`
@@ -172,24 +171,24 @@ Adicionar `class="dark"` no `<html>` por padrão.
 **Reaproveitamento PipeFlow:** Estrutura de listagem/busca/filtros e página de detalhe com abas. Formulário multi-step é novo.
 
 **Interface primeiro:**
-- [ ] Criar página `/processos` com tabela (CNJ, alcunha, cliente, réu, fase, comarca, responsável, sigilo)
-- [ ] Barra de busca unificada (CNJ, alcunha, nome de cliente ou réu)
-- [ ] Filtros: fase processual, comarca, responsável, sigilo, tipo penal
-- [ ] Criar drawer/modal "Novo Processo" multi-step:
+- [x] Criar página `/processos` com tabela (CNJ, alcunha, cliente, réu, fase, comarca, responsável, sigilo)
+- [x] Barra de busca unificada (CNJ, alcunha, nome de cliente ou réu)
+- [x] Filtros: fase processual, comarca, responsável, sigilo, tipo penal
+- [x] Criar drawer/modal "Novo Processo" multi-step:
   - Step 1 — Identificação: CNJ (com máscara `NNNNNNN-DD.AAAA.J.TR.OOOO` e validação), número interno, alcunha
   - Step 2 — Localização: tribunal, comarca, vara, juiz
   - Step 3 — Tipificação: tipos penais (múltiplos, com marcação do principal, referência ao artigo do CP)
   - Step 4 — Partes: cliente contratante, réu (podem ser a mesma pessoa ou não), vítimas, testemunhas
   - Step 5 — Configuração: fase atual, sigilo (público / restrito / segredo de justiça), responsável interno
-- [ ] Criar página `/processos/[id]` com abas:
+- [x] Criar página `/processos/[id]` com abas:
   - Resumo: dados do processo + partes vinculadas + situação atual
   - Timeline (placeholder — M7)
   - Documentos (placeholder — M8)
   - Financeiro (placeholder — M9)
   - Prazos (lista dos prazos do processo — conecta ao M5)
-- [ ] Indicador de sigilo destacado no header da página de detalhe
-- [ ] Indicador de situação prisional do réu no header (se aplicável)
-- [ ] Ícone de cadeado para processos em segredo de justiça na listagem
+- [x] Indicador de sigilo destacado no header da página de detalhe
+- [x] Indicador de situação prisional do réu no header (se aplicável)
+- [x] Ícone de cadeado para processos em segredo de justiça na listagem
 
 **Banco de dados:**
 - [ ] Migration: tabela `processos` com RLS por `office_id`
