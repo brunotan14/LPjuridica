@@ -308,7 +308,7 @@ export function NovoEventoDrawer({ open, onOpenChange }: Props) {
             {showProcesso && (
               <div className="space-y-1.5">
                 <label htmlFor="processoId" className={labelClass}>
-                  Processo {tipoWatched !== 'reuniao' && '*'}
+                  Processo{showProcesso ? ' *' : ''}
                 </label>
                 <select
                   id="processoId"

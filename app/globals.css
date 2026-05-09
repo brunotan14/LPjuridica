@@ -238,3 +238,19 @@
 .animate-pulse-critical {
   animation: pulse-critical 1.5s ease-in-out infinite;
 }
+
+/* Side panel da agenda — slide-in a partir da direita */
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.agenda-side-panel {
+  animation: slide-in-right 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
