@@ -216,33 +216,33 @@ Adicionar `class="dark"` no `<html>` por padrão.
 > **Atenção:** Realizar testes manuais obrigatórios com 5 cenários reais antes do merge. Erros aqui têm consequência direta para clientes presos.
 
 **Interface primeiro:**
-- [ ] Criar página `/agenda` com 3 visualizações alternáveis via tabs:
-  - Calendário mensal (`react-big-calendar` em modo dark com paleta zinc/indigo)
+- [x] Criar página `/agenda` com 3 visualizações alternáveis via tabs:
+  - Calendário mensal (`react-big-calendar` em modo dark com paleta dourada — overrides via `calendar-overrides.css`)
   - Lista semanal (agrupada por dia)
   - Lista do dia (foco nos eventos do dia)
-- [ ] Chips coloridos por tipo de evento no calendário: prazo (indigo), audiência (amber), visita ao preso (red), reunião (emerald), diligência (zinc)
-- [ ] Criar drawer/modal "Novo Evento" com formulário condicional por tipo:
+- [x] Chips coloridos por tipo de evento no calendário: prazo (dourado), audiência (amber), visita ao preso (red), reunião (emerald), diligência (zinc)
+- [x] Criar drawer/modal "Novo Evento" com formulário condicional por tipo:
   - **Prazo:** data de início, data fim (prazo fatal), processo vinculado (obrigatório), responsável, descrição
   - **Audiência:** data, hora, local (comarca + vara), processo (obrigatório), partes presentes esperadas
   - **Visita ao preso:** data, hora, unidade prisional, parte/réu (obrigatório)
   - **Reunião com cliente:** data, hora, local, parte/cliente — único tipo sem processo obrigatório
   - **Diligência:** data, hora, local, processo, descrição
-- [ ] Indicadores de criticidade temporal:
+- [x] Indicadores de criticidade temporal:
   - Verde: > 7 dias
   - Âmbar: 3–7 dias
   - Vermelho: < 3 dias
-  - Vermelho pulsante (animação CSS): vencendo hoje
+  - Vermelho pulsante (animação CSS `animate-pulse-critical`): vencendo hoje
   - Cinza com badge vermelho "Perdido": prazo perdido
-- [ ] **Modal "Marcar como Cumprido"** (dupla confirmação):
+- [x] **Modal "Marcar como Cumprido"** (dupla confirmação):
   - Resumo do evento (tipo, data, processo, descrição)
   - Campo obrigatório "O que foi feito?" com validação de mínimo 10 caracteres
   - Dois botões: "Cancelar" (ghost) e "Confirmar Cumprimento" (primário)
-- [ ] **Modal "Marcar como Perdido"** (cor crítica, separado do cumprido):
+- [x] **Modal "Marcar como Perdido"** (cor crítica, separado do cumprido):
   - Campo justificativa obrigatório (mínimo 20 caracteres)
   - Aviso explícito: "Esta ação será notificada ao Titular"
   - Botão de confirmação em vermelho
-- [ ] Widget "Prazos Críticos" no dashboard (placeholder agora, dados reais no M10)
-- [ ] Badge numérico na sidebar atualizado com prazos do dia
+- [x] Widget "Prazos Críticos" no dashboard (mock agora, dados reais no M10)
+- [x] Badge numérico na sidebar atualizado com prazos do dia (`navItemsComBadges`)
 
 **Banco de dados:**
 - [ ] Migration: tabela `prazos` com RLS por `office_id`
