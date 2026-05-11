@@ -235,3 +235,9 @@ export const eventosMock: Evento[] = [
     criadoEm: '2026-04-01T11:00:00Z',
   },
 ]
+
+export function getEventosByProcesso(processoId: string): Evento[] {
+  return eventosMock
+    .filter((ev) => ev.processoId === processoId)
+    .sort((a, b) => (a.dataFim ?? a.data).localeCompare(b.dataFim ?? b.data))
+}

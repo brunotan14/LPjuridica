@@ -98,9 +98,10 @@ const labelClass =
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
+  defaultProcessoId?: string
 }
 
-export function NovoEventoDrawer({ open, onOpenChange }: Props) {
+export function NovoEventoDrawer({ open, onOpenChange, defaultProcessoId }: Props) {
   const {
     register,
     handleSubmit,
@@ -120,8 +121,17 @@ export function NovoEventoDrawer({ open, onOpenChange }: Props) {
   const meta = TIPO_META[tipoWatched]
 
   useEffect(() => {
-    if (!open) reset()
-  }, [open, reset])
+    if (!open) {
+      reset()
+    } else {
+      reset({
+        tipo: 'prazo',
+        responsavel: 'Dr. Leandro Pedrosa',
+        data: new Date().toISOString().slice(0, 10),
+        processoId: defaultProcessoId ?? '',
+      })
+    }
+  }, [open, reset, defaultProcessoId])
 
   function onSubmit(_data: FormData) {
     // Mock: apenas fecha o drawer.
