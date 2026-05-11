@@ -272,29 +272,35 @@ Adicionar `class="dark"` no `<html>` por padrão.
 
 ## M6 — Pipeline Kanban Processual (UI → Backend)
 
-**Branch:** `feat/pipeline`
+**Branch:** `feat/pipeline` → mergeado em `main` (PR #10)
 **Objetivo:** Pipeline visual com drag-and-drop entre fases processuais, com auditoria de cada transição.
 **Reaproveitamento PipeFlow:** Componente de Kanban com `@dnd-kit` reaproveitado integralmente. Colunas, cards e modal de confirmação são novos.
 
 **Interface primeiro:**
-- [ ] Criar página `/pipeline` com layout horizontal de colunas (scroll horizontal em mobile)
-- [ ] Colunas fixas por fase processual: Pré-processual → Inquérito → Denúncia/Recebimento → Instrução → Memoriais → Sentença → Recursos → Execução → Arquivado
-- [ ] Criar componente `FaseColuna` com header (nome + contador de processos)
-- [ ] Criar componente `ProcessoCard`:
+- [x] Criar página `/pipeline` com layout horizontal de colunas (scroll horizontal em mobile)
+- [x] Colunas fixas por fase processual: Pré-processual → Inquérito → Denúncia/Recebimento → Instrução → Memoriais → Sentença → Recursos → Execução → Arquivado
+- [x] Criar componente `FaseColuna` com header (nome + contador de processos) e strip colorida por fase
+- [x] Criar componente `ProcessoCard`:
   - Alcunha do caso em destaque
   - Cliente (nome) + réu (se diferente do cliente)
   - Comarca + vara
   - Próximo prazo/audiência (data + tipo, com cor de criticidade)
   - Avatar do responsável interno
   - Ícone de cadeado se processo sigiloso
-- [ ] Implementar drag-and-drop entre colunas com `@dnd-kit`
-- [ ] **Modal de confirmação ao mover** (mudança de fase é auditada):
+  - Menu ⋯ com ações Editar e Excluir
+- [x] Implementar drag-and-drop entre colunas com `@dnd-kit`
+- [x] **Modal de confirmação ao mover** (mudança de fase é auditada):
   - "Mover [alcunha] de [fase atual] para [nova fase]?"
   - Campo opcional: "Observação sobre a transição"
   - Confirmar ou Cancelar
-- [ ] Filtros laterais: responsável, comarca, tipo penal, sigilo
-- [ ] Indicador visual de coluna ativa durante drag
-- [ ] Click no card abre `/processos/[id]`
+- [x] Filtros laterais: responsável, comarca, tipo penal, sigilo
+- [x] Indicador visual de coluna ativa durante drag
+- [x] Click no card abre `/processos/[id]` (console.log — aguarda backend)
+- [x] Barra de totais superior com count por fase e botão "+ Novo Processo"
+- [x] Editar processo: `NovoProcessoDrawer` em `mode="edit"` com dados pré-preenchidos
+- [x] Excluir processo: modal de confirmação com alerta visual; remove da pipeline
+- [x] Criar processo: `NovoProcessoDrawer` em `mode="create"`; card aparece na coluna da fase escolhida
+- [x] Responsável padrão fixado em Dr. Leandro Pedrosa (sistema single-tenant)
 
 **Backend:**
 - [ ] Server Action `mudarFaseProcesso(processoId, novaFase, observacao?)`:
@@ -304,7 +310,7 @@ Adicionar `class="dark"` no `<html>` por padrão.
 - [ ] Server Component para carregar processos agrupados por fase
 - [ ] RLS garante que apenas processos do `office_id` aparecem
 
-**Commit final:** `feat: kanban pipeline with phase transitions and audit logging`
+**Commit final:** `feat(M6): pipeline kanban processual com drag-and-drop` (`a7794c6`)
 
 ---
 
