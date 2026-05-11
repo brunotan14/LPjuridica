@@ -126,6 +126,7 @@ interface NovoProcessoDrawerProps {
   onOpenChange: (open: boolean) => void
   processo?: Processo
   mode?: 'create' | 'edit'
+  onSave?: (updates: Partial<Processo>) => void
 }
 
 // ─── Progress bar ─────────────────────────────────────────────────────────────
@@ -182,6 +183,7 @@ export function NovoProcessoDrawer({
   onOpenChange,
   processo,
   mode = 'create',
+  onSave,
 }: NovoProcessoDrawerProps) {
   const [currentStep, setCurrentStep] = useState(1)
 
@@ -210,6 +212,7 @@ export function NovoProcessoDrawer({
         vitimasIds: [],
         testemunhasIds: [],
         sigilo: 'publico',
+        responsavelInterno: 'Dr. Leandro Pedrosa',
       }
 
   const {
@@ -263,7 +266,50 @@ export function NovoProcessoDrawer({
     setCurrentStep((s) => Math.max(s - 1, 1))
   }
 
-  function onSubmit(_data: FormData) {
+  function onSubmit(data: FormData) {
+    if (onSave) {
+      const tiposPenais = data.tiposPenaisSelecionados
+        .map((id) => {
+          const found = TIPOS_PENAIS_DISPONIVEIS.find((t) => t.id === id)
+          if (!found) return null
+          return { id: found.id, artigo: found.artigo, descricao: found.descricao, principal: id === data.tipoPrincipal }
+        })
+        .filter((t): t is NonNullable<typeof t> => t !== null)
+
+      const allPartes = [...partesMock]
+      const partes: Processo['partes'] = []
+      const clienteParte = allPartes.find((p) => p.id === data.clienteId)
+      if (clienteParte) partes.push({ parteId: clienteParte.id, papel: 'cliente', nome: clienteParte.nome })
+      if (data.reuId) {
+        const reuParte = allPartes.find((p) => p.id === data.reuId)
+        if (reuParte) partes.push({ parteId: reuParte.id, papel: 'reu', nome: reuParte.nome })
+      }
+      ;(data.vitimasIds ?? []).forEach((id) => {
+        const p = allPartes.find((x) => x.id === id)
+        if (p) partes.push({ parteId: p.id, papel: 'vitima', nome: p.nome })
+      })
+      ;(data.testemunhasIds ?? []).forEach((id) => {
+        const p = allPartes.find((x) => x.id === id)
+        if (p) partes.push({ parteId: p.id, papel: 'testemunha', nome: p.nome })
+      })
+
+      onSave({
+        numeroCNJ: data.numeroCNJ,
+        numeroInterno: data.numeroInterno,
+        alcunha: data.alcunha,
+        tribunal: data.tribunal,
+        comarca: data.comarca,
+        vara: data.vara,
+        juiz: data.juiz,
+        faseAtual: data.faseAtual,
+        sigilo: data.sigilo,
+        responsavelInterno: data.responsavelInterno,
+        observacoes: data.observacoes,
+        tiposPenais,
+        partes,
+        atualizadoEm: new Date().toISOString(),
+      })
+    }
     onOpenChange(false)
   }
 
@@ -764,16 +810,20 @@ export function NovoProcessoDrawer({
                     <label htmlFor="responsavelInterno" className="block text-[10px] font-medium uppercase tracking-widest text-zinc-500">
                       Responsável interno *
                     </label>
-                    <input
+                    <select
                       id="responsavelInterno"
                       {...register('responsavelInterno')}
-                      placeholder="Ex: Dr. Leandro Pedrosa"
                       className={inputClass}
                       aria-invalid={!!errors.responsavelInterno}
-                    />
+                    >
+                      <option value="Dr. Leandro Pedrosa">Dr. Leandro Pedrosa — Titular</option>
+                    </select>
                     {errors.responsavelInterno && (
                       <p className="text-xs text-red-400">{errors.responsavelInterno.message}</p>
                     )}
+                    <p className="text-[11px] text-zinc-600">
+                      Associados são adicionados em Configurações → Equipe.
+                    </p>
                   </div>
 
                   <div className="space-y-1.5">
