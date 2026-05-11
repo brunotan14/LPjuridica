@@ -22,8 +22,14 @@ import { BadgeSigilo } from '@/components/processos/badge-sigilo'
 import { AndamentosTimeline } from '@/components/andamentos/andamentos-timeline'
 import { RegistrarAndamentoForm } from '@/components/andamentos/registrar-andamento-form'
 import { getAndamentosByProcesso } from '@/lib/data/andamentos'
+import { EventoRow } from '@/components/agenda/evento-row'
+import { MarcarCumpridoModal } from '@/components/agenda/marcar-cumprido-modal'
+import { MarcarPerdidoModal } from '@/components/agenda/marcar-perdido-modal'
+import { NovoEventoDrawer } from '@/components/agenda/novo-evento-drawer'
+import { getEventosByProcesso } from '@/lib/data/agenda'
 import type { Processo } from '@/types/processos'
 import type { Andamento } from '@/types/andamentos'
+import type { Evento } from '@/types/agenda'
 
 const TABS = [
   { id: 'resumo', label: 'Resumo', icon: Scale },
@@ -317,6 +323,130 @@ function TimelineTab({ processo }: { processo: Processo }) {
   )
 }
 
+// ─── Prazos Tab ───────────────────────────────────────────────────────────────
+
+function PrazosTab({ processo }: { processo: Processo }) {
+  const [eventos, setEventos] = useState<Evento[]>(() => getEventosByProcesso(processo.id))
+  const [drawerAberto, setDrawerAberto] = useState(false)
+  const [eventoParaCumprir, setEventoParaCumprir] = useState<Evento | null>(null)
+  const [eventoParaPerder, setEventoParaPerder] = useState<Evento | null>(null)
+
+  function handleCumprir(eventoId: string, descricao: string) {
+    setEventos((prev) =>
+      prev.map((ev) =>
+        ev.id === eventoId
+          ? { ...ev, status: 'cumprido' as const, descricaoCumprimento: descricao }
+          : ev,
+      ),
+    )
+  }
+
+  function handlePerder(eventoId: string, justificativa: string) {
+    setEventos((prev) =>
+      prev.map((ev) =>
+        ev.id === eventoId
+          ? { ...ev, status: 'perdido' as const, justificativaPerdido: justificativa }
+          : ev,
+      ),
+    )
+  }
+
+  const pendentes = eventos
+    .filter((ev) => ev.status === 'pendente' || ev.status === 'agendado')
+    .sort((a, b) => (a.dataFim ?? a.data).localeCompare(b.dataFim ?? b.data))
+
+  const concluidos = eventos
+    .filter(
+      (ev) =>
+        ev.status === 'cumprido' ||
+        ev.status === 'realizado' ||
+        ev.status === 'perdido' ||
+        ev.status === 'cancelado',
+    )
+    .sort((a, b) => (b.dataFim ?? b.data).localeCompare(a.dataFim ?? a.data))
+
+  return (
+    <>
+      <NovoEventoDrawer
+        open={drawerAberto}
+        onOpenChange={setDrawerAberto}
+        defaultProcessoId={processo.id}
+      />
+      <MarcarCumpridoModal
+        evento={eventoParaCumprir}
+        onClose={() => setEventoParaCumprir(null)}
+        onConfirm={handleCumprir}
+      />
+      <MarcarPerdidoModal
+        evento={eventoParaPerder}
+        onClose={() => setEventoParaPerder(null)}
+        onConfirm={handlePerder}
+      />
+
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex justify-end">
+          <button
+            onClick={() => setDrawerAberto(true)}
+            className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500"
+          >
+            <Plus className="size-4" />
+            Novo evento
+          </button>
+        </div>
+
+        {eventos.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <div className="flex size-12 items-center justify-center rounded-full bg-zinc-800">
+              <CalendarClock className="size-6 text-zinc-600" />
+            </div>
+            <p className="mt-4 text-sm font-medium text-zinc-400">Nenhum evento vinculado</p>
+            <p className="mt-1 text-xs text-zinc-600">
+              Adicione prazos, audiências ou outros eventos para este processo.
+            </p>
+            <button
+              onClick={() => setDrawerAberto(true)}
+              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500"
+            >
+              <Plus className="size-4" />
+              Novo evento
+            </button>
+          </div>
+        ) : (
+          <>
+            {pendentes.length > 0 && (
+              <section className="space-y-2">
+                <p className="text-xs font-medium uppercase tracking-widest text-zinc-500">
+                  Próximos e pendentes
+                </p>
+                {pendentes.map((ev) => (
+                  <EventoRow
+                    key={ev.id}
+                    evento={ev}
+                    onCumprir={(e) => setEventoParaCumprir(e)}
+                    onPerder={(e) => setEventoParaPerder(e)}
+                  />
+                ))}
+              </section>
+            )}
+
+            {concluidos.length > 0 && (
+              <section className="space-y-2">
+                <p className="text-xs font-medium uppercase tracking-widest text-zinc-500">
+                  Concluídos e perdidos
+                </p>
+                {concluidos.map((ev) => (
+                  <EventoRow key={ev.id} evento={ev} />
+                ))}
+              </section>
+            )}
+          </>
+        )}
+      </div>
+    </>
+  )
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 interface ProcessoDetailTabsProps {
   processo: Processo
@@ -367,13 +497,7 @@ export function ProcessoDetailTabs({ processo }: ProcessoDetailTabsProps) {
             milestone="Disponível em breve (M9)"
           />
         )}
-        {activeTab === 'prazos' && (
-          <PlaceholderTab
-            icon={CalendarClock}
-            title="Agenda de prazos"
-            milestone="Disponível em breve (M5)"
-          />
-        )}
+        {activeTab === 'prazos' && <PrazosTab processo={processo} />}
       </div>
     </div>
   )
