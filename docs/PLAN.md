@@ -368,21 +368,60 @@ Adicionar `class="dark"` no `<html>` por padrão.
 
 ## M8 — Gestão de Documentos (UI → Backend)
 
-**Branch:** `feat/documentos`
+**Branch:** `feat/documentos-ui` → PR aberto (primeira metade concluída)
 **Objetivo:** Upload, categorização, versionamento e log de acesso de documentos por processo, com armazenamento criptografado.
 **Reaproveitamento PipeFlow:** Nenhum — módulo inteiramente novo.
 
 **Interface primeiro:**
-- [ ] Implementar aba "Documentos" em `/processos/[id]`
-- [ ] Tabela de documentos: título, categoria, versão atual, sigiloso, último acesso, ações (visualizar, baixar, nova versão)
-- [ ] Categorias: procuração, contrato de honorários, peça inicial, contestação, recurso, decisão judicial, prova documental, laudo pericial, mídia
-- [ ] Drag-and-drop para upload com `react-dropzone`
-- [ ] Modal "Adicionar documento": arquivo, título, categoria, checkbox "Documento sigiloso"
-- [ ] Visualizador inline para PDFs (via signed URL temporária)
-- [ ] Botão "Nova versão": abre upload preservando metadados, incrementa `versao`, mantém histórico
-- [ ] Aba "Histórico de versões" por documento (versão, data, autor)
-- [ ] Aba "Log de acesso" por documento — visível apenas ao Titular (quem viu, baixou, editou e quando)
-- [ ] Badge "Sigiloso" destacado em documentos sensíveis
+- [x] Implementar aba "Documentos" em `/processos/[id]`
+- [x] Tabela de documentos: título, categoria, versão atual, sigiloso, último acesso, ações (visualizar, baixar, nova versão)
+- [x] Categorias: procuração, contrato de honorários, peça inicial, contestação, recurso, decisão judicial, prova documental, laudo pericial, mídia
+- [x] Drag-and-drop para upload com `react-dropzone` (4 estados visuais: idle, dragover indigo, rejeitado vermelho, aceito emerald)
+- [x] Modal "Adicionar documento": arquivo, título (auto-preenchido do nome do arquivo), categoria, checkbox "Documento sigiloso"
+- [x] Badge "Sigiloso" sempre visível ao lado do título na tabela (nunca oculto em tela estreita)
+- [x] Todas as colunas visíveis em qualquer breakpoint — sem responsive hiding
+- [ ] Visualizador inline para PDFs (via signed URL temporária) — segunda metade
+- [ ] Botão "Nova versão": abre upload preservando metadados, incrementa `versao`, mantém histórico — segunda metade
+- [ ] Aba "Histórico de versões" por documento (versão, data, autor) — segunda metade
+- [ ] Aba "Log de acesso" por documento — visível apenas ao Titular (quem viu, baixou, editou e quando) — segunda metade
+
+**Testes manuais da interface (validados em `http://localhost:3000/processos/proc-001` → aba Documentos):**
+
+*Tabela inicial*
+1. Aba "Documentos" exibe tabela com 4 docs mock (não empty state)
+2. Ordem: Gravação de Audiência → Memoriais Defensivos → Laudo Pericial → Procuração Ad Judicia (criadoEm DESC)
+3. Ícone correto por tipo: Video para MP4, FileText para PDF
+4. Badge "Sigiloso" ao lado do título nos dois docs sigilosos (Laudo e Gravação) — visível sem rolar
+5. Coluna Categoria exibe label em PT-BR (ex: "Mídia", "Peça", "Laudo Pericial", "Procuração")
+6. Coluna Versão: badge v1 ou v2 conforme o doc
+7. Coluna Último acesso: data relativa em PT-BR (ex: "há 4 dias")
+8. Hover na data exibe tooltip com data completa dd/mm/aaaa hh:mm
+9. Todas as colunas visíveis em tela estreita
+10. Botão "Adicionar documento" aparece no topo direito quando há documentos
+
+*Modal — Adicionar documento*
+11. Clicar em "Adicionar documento" abre o modal com overlay blur
+12. Clicar fora do card fecha sem salvar
+13. Pressionar Escape fecha sem salvar
+14. Botão X (canto superior direito) fecha o modal
+15. Submeter sem arquivo e sem título exibe ambos os erros de validação
+
+*Dropzone*
+16. Arrastar PDF sobre a dropzone muda borda para indigo
+17. Arrastar tipo inválido (ex: `.exe`) muda borda para vermelho
+18. Soltar arquivo PDF aceito: preview verde com nome, tamanho e botão X
+19. Clicar no X do arquivo aceito e submeter exibe erro de validação (estado do pai limpo)
+20. Selecionar arquivo pré-preenche o campo Título com o nome sem extensão
+21. Se o título já estiver preenchido antes, não é sobrescrito
+
+*Submissão e resultado*
+22. Preencher tudo corretamente e clicar "Adicionar": modal fecha e doc aparece no topo
+23. Novo documento exibe ícone, tamanho, categoria e badge sigiloso conforme selecionado
+24. Botões Eye, Download e UploadCloud clicáveis sem erro (backend pendente)
+
+*Empty state*
+25. `/processos/proc-002` → aba Documentos: exibe empty state com botão "Adicionar documento" centralizado
+26. Clicar no botão do empty state abre o mesmo modal
 
 **Banco de dados:**
 - [ ] Migration: tabela `documentos` com RLS por `office_id`
@@ -631,7 +670,7 @@ Adicionar `class="dark"` no `<html>` por padrão.
 | M5 | `feat/agenda` | **⚠️ Agenda de prazos — módulo crítico** | Nenhum — inteiramente novo |
 | M6 | `feat/pipeline` | Kanban processual com auditoria | Alto — dnd-kit reaproveitado, colunas novas |
 | M7 | `feat/andamentos` | Timeline com notas confidenciais | Médio — visual igual, tipos e flag novos |
-| M8 | `feat/documentos` | Documentos versionados com log de acesso | Nenhum — inteiramente novo |
+| M8 | `feat/documentos-ui` | Documentos versionados com log de acesso | Nenhum — inteiramente novo |
 | M9 | `feat/financeiro` | Honorários, parcelas, êxito, despesas | Nenhum — inteiramente novo |
 | M10 | `feat/dashboard` | Dashboard executivo | Alto — estrutura igual, métricas novas |
 | M11 | `feat/push-notifications` | Alertas push no mobile | Nenhum — inteiramente novo |
