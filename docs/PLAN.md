@@ -321,29 +321,45 @@ Adicionar `class="dark"` no `<html>` por padrão.
 **Reaproveitamento PipeFlow:** Componente `ActivityTimeline` do M6 reaproveitado como base visual. Tipos de entrada, flag `confidencial` e restrição por role são novos.
 
 **Interface primeiro:**
-- [ ] Implementar aba "Timeline" em `/processos/[id]`
-- [ ] Componente `Timeline` com itens cronológicos (mais recente primeiro)
-- [ ] Ícone distinto por tipo: andamento oficial, peça produzida, comunicação com cliente, anotação interna, evento de audiência
-- [ ] Badge "Confidencial" em anotações marcadas (visível apenas ao Titular)
-- [ ] Formulário inline "Registrar andamento":
+- [x] Implementar aba "Timeline" em `/processos/[id]`
+- [x] Componente `Timeline` com itens cronológicos (mais recente primeiro)
+- [x] Ícone distinto por tipo: andamento oficial, peça produzida, comunicação com cliente, anotação interna, evento de audiência
+- [x] Badge "Confidencial" em anotações marcadas (visível apenas ao Titular)
+- [x] Formulário inline "Registrar andamento":
   - Tipo (select)
   - Data (default: hoje, editável)
   - Descrição (textarea)
   - Checkbox "Marcar como confidencial" (visível apenas se tipo = Anotação interna)
   - Botão de upload de anexo (UI pronta, integração completa no M8)
-- [ ] Exibir autor + data relativa ("há 2 dias") em cada item
-- [ ] Filtros por tipo (chips toggleáveis no topo)
-- [ ] Estado vazio com CTA para registrar primeiro andamento
+- [x] Exibir autor + data relativa ("há 2 dias") em cada item
+- [x] Filtros por tipo (chips toggleáveis no topo)
+- [x] Estado vazio com CTA para registrar primeiro andamento
+- [x] Exclusão de andamento com modal de confirmação — ícone de lixeira sempre visível (cor discreta, fica vermelho no hover) no cabeçalho de cada `TimelineItem` (`components/andamentos/timeline-item.tsx`); clique abre `ConfirmModal` centralizado com overlay escuro + blur; botão "Excluir" (vermelho) confirma; "Cancelar" ou Escape fecha sem excluir; exclusão remove o item via `onExcluir` propagado de `TimelineTab` → `AndamentosTimeline` → `TimelineItem` (`components/processos/processo-detail-tabs.tsx`)
+
+**Testes manuais da interface (validados em `http://localhost:3000/processos/proc-001` → aba Timeline):**
+1. Lista de andamentos — 6 itens mock, mais recente no topo, cada um com ícone e cor distintos por tipo
+2. Badge "Confidencial" — aparece no item `and-005` (Anotação interna) com ícone de cadeado vermelho
+3. Datas relativas — passe o mouse sobre a data para ver a data absoluta no tooltip
+4. Linha vertical — conecta os itens; some após o último item
+5. Chips de filtro — clique em "Peça", "Audiência" etc. para filtrar; contador atualizado; chip desabilitado (opacidade reduzida) quando count = 0; estado "Nenhum andamento nesta categoria" + link "Ver todos" aparece ao excluir o último item de um tipo enquanto aquele filtro está ativo (ex: filtre "Audiência" → exclua o item → link "Ver todos" aparece → clique para voltar ao filtro "Todos")
+6. Botão "+ Registrar andamento" — aparece apenas quando há andamentos na lista E o formulário está fechado; some automaticamente ao abrir o formulário
+7. Formulário: selecionar "Anotação interna" exibe checkbox "Marcar como confidencial"; nos demais tipos, o checkbox não aparece
+8. Validação: submeter com menos de 10 caracteres na descrição exibe erro em vermelho abaixo do campo
+9. Registrar: preencher e confirmar insere o novo item na posição correta da timeline conforme a data escolhida no formulário (data de hoje = topo; data anterior = posição cronológica correspondente)
+10. Exclusão: ícone de lixeira cinza visível em todos os itens → hover deixa vermelho → clique abre modal centralizado com overlay e blur → "Excluir" (vermelho) remove o item da timeline; "Cancelar" ou tecla Escape fecha o modal sem excluir
+11. Estado vazio geral: exclua todos os itens um a um; ao chegar em zero aparece o empty state com CTA "Registrar primeiro andamento" que abre o formulário inline
 
 **Banco de dados:**
 - [ ] Migration: tabela `andamentos` com RLS por `office_id`
 - [ ] Coluna `confidencial` boolean (default false)
 - [ ] Coluna `andamento_source` (default `manual`, reservado para v2)
+- [ ] Coluna `deletado_em` timestamptz (default null) — soft delete: registro permanece no banco; queries filtram `WHERE deletado_em IS NULL`
 - [ ] RLS adicional: registro com `confidencial = true` visível apenas se `auth.uid()` é Titular
 
 **Backend:**
 - [ ] Server Action: criar andamento (valida campos por tipo)
-- [ ] Server Component para carregar timeline, ordenada por `data DESC`
+- [ ] Server Action: `excluirAndamento(andamentoId)` — soft delete: preenche `deletado_em = now()` e registra em `audit_log` (quem excluiu, quando, id do andamento)
+- [ ] Server Component para carregar timeline, ordenada por `data DESC`, filtrando `deletado_em IS NULL`
 - [ ] Enforcement de confidencialidade no Server Component (não retorna andamentos confidenciais para não-Titular)
 
 **Commit final:** `feat: process timeline with multiple entry types and confidential notes`

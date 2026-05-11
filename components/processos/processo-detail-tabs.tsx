@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { Plus } from 'lucide-react'
 import {
   Clock,
   FileText,
@@ -18,7 +19,11 @@ import {
 import { cn } from '@/lib/utils'
 import { BadgeFaseProcessual } from '@/components/processos/badge-fase-processual'
 import { BadgeSigilo } from '@/components/processos/badge-sigilo'
+import { AndamentosTimeline } from '@/components/andamentos/andamentos-timeline'
+import { RegistrarAndamentoForm } from '@/components/andamentos/registrar-andamento-form'
+import { getAndamentosByProcesso } from '@/lib/data/andamentos'
 import type { Processo } from '@/types/processos'
+import type { Andamento } from '@/types/andamentos'
 
 const TABS = [
   { id: 'resumo', label: 'Resumo', icon: Scale },
@@ -257,6 +262,61 @@ function ResumoTab({ processo }: { processo: Processo }) {
   )
 }
 
+// ─── Timeline Tab ─────────────────────────────────────────────────────────────
+
+function TimelineTab({ processo }: { processo: Processo }) {
+  const [andamentos, setAndamentos] = useState<Andamento[]>(
+    () => getAndamentosByProcesso(processo.id),
+  )
+  const [formAberto, setFormAberto] = useState(false)
+
+  function handleRegistrar(novoAndamento: Andamento) {
+    setAndamentos((prev) =>
+      [novoAndamento, ...prev].sort(
+        (a, b) => new Date(b.data).getTime() - new Date(a.data).getTime(),
+      ),
+    )
+    setFormAberto(false)
+  }
+
+  function handleExcluir(id: string) {
+    setAndamentos((prev) => prev.filter((a) => a.id !== id))
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Header com botão de registrar */}
+      {andamentos.length > 0 && !formAberto && (
+        <div className="flex justify-end">
+          <button
+            onClick={() => setFormAberto(true)}
+            className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500"
+          >
+            <Plus className="size-4" />
+            Registrar andamento
+          </button>
+        </div>
+      )}
+
+      {/* Formulário inline */}
+      {formAberto && (
+        <RegistrarAndamentoForm
+          processoId={processo.id}
+          onRegistrar={handleRegistrar}
+          onCancelar={() => setFormAberto(false)}
+        />
+      )}
+
+      {/* Timeline */}
+      <AndamentosTimeline
+        andamentos={andamentos}
+        onRegistrar={() => setFormAberto(true)}
+        onExcluir={handleExcluir}
+      />
+    </div>
+  )
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 interface ProcessoDetailTabsProps {
   processo: Processo
@@ -292,13 +352,7 @@ export function ProcessoDetailTabs({ processo }: ProcessoDetailTabsProps) {
       {/* Tab content */}
       <div className="p-6">
         {activeTab === 'resumo' && <ResumoTab processo={processo} />}
-        {activeTab === 'timeline' && (
-          <PlaceholderTab
-            icon={Clock}
-            title="Timeline de andamentos"
-            milestone="Disponível em breve (M7)"
-          />
-        )}
+        {activeTab === 'timeline' && <TimelineTab processo={processo} />}
         {activeTab === 'documentos' && (
           <PlaceholderTab
             icon={FileText}
