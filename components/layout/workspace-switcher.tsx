@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { ChevronsUpDown, Check, Building2 } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { LPMonogram } from '@/components/brand/lp-monogram'
 
 type Workspace = { id: string; name: string; plan: string }

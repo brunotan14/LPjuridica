@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/v4'
 import { ExternalLink, FileText, Users, Save, X, Pencil } from 'lucide-react'
@@ -10,7 +10,6 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { BadgeTipoParte } from '@/components/partes/badge-tipo-parte'
 import type { Parte } from '@/types/partes'
 
 const inputClass =
@@ -51,7 +50,7 @@ function DadosPessoaisTab({ parte }: { parte: Parte }) {
     register,
     handleSubmit,
     reset,
-    watch,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<EditFormData>({
     resolver: zodResolver(editSchema),
@@ -71,10 +70,10 @@ function DadosPessoaisTab({ parte }: { parte: Parte }) {
     },
   })
 
-  const statusWatched = watch('status')
-  const situacaoWatched = watch('situacaoPrisional')
+  const statusWatched = useWatch({ control, name: 'status' }) ?? parte.status
+  const situacaoWatched = useWatch({ control, name: 'situacaoPrisional' })
 
-  function onSubmit(_data: EditFormData) {
+  function onSubmit() {
     // Mock: just exit edit mode
     setEditing(false)
   }

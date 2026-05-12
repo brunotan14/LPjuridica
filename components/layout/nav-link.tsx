@@ -5,7 +5,13 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import type { NavItem } from '@/lib/nav'
 
-export function NavLink({ item }: { item: NavItem }) {
+export function NavLink({
+  item,
+  onNavigate,
+}: {
+  item: NavItem
+  onNavigate?: () => void
+}) {
   const pathname = usePathname()
   const isActive =
     item.href === '/dashboard'
@@ -15,6 +21,7 @@ export function NavLink({ item }: { item: NavItem }) {
   return (
     <Link
       href={item.href}
+      onClick={onNavigate}
       className={cn(
         'group flex items-center gap-3 rounded-lg py-2 pr-3 text-sm font-medium transition-colors',
         isActive

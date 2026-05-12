@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { Dialog } from '@base-ui/react/dialog'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/v4'
 import { X, ChevronLeft, ChevronRight, Check } from 'lucide-react'
@@ -218,7 +218,7 @@ export function NovoProcessoDrawer({
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     reset,
     setValue,
     trigger,
@@ -228,20 +228,21 @@ export function NovoProcessoDrawer({
     defaultValues,
   })
 
-  const tiposPenaisSelecionados = watch('tiposPenaisSelecionados') ?? []
-  const tipoPrincipal = watch('tipoPrincipal')
-  const vitimasIds = watch('vitimasIds') ?? []
-  const testemunhasIds = watch('testemunhasIds') ?? []
-  const faseAtual = watch('faseAtual')
-  const sigilo = watch('sigilo')
-  const tribunal = watch('tribunal')
+  const tiposPenaisSelecionados = useWatch({ control, name: 'tiposPenaisSelecionados' }) ?? []
+  const tipoPrincipal = useWatch({ control, name: 'tipoPrincipal' })
+  const vitimasIds = useWatch({ control, name: 'vitimasIds' }) ?? []
+  const testemunhasIds = useWatch({ control, name: 'testemunhasIds' }) ?? []
+  const faseAtual = useWatch({ control, name: 'faseAtual' })
+  const sigilo = useWatch({ control, name: 'sigilo' })
+  const tribunal = useWatch({ control, name: 'tribunal' })
 
-  useEffect(() => {
-    if (!open) {
+  function handleOpenChange(newOpen: boolean) {
+    if (!newOpen) {
       reset()
       setCurrentStep(1)
     }
-  }, [open, reset])
+    onOpenChange(newOpen)
+  }
 
   // When editing, reset defaults when processo changes
   useEffect(() => {
@@ -310,7 +311,7 @@ export function NovoProcessoDrawer({
         atualizadoEm: new Date().toISOString(),
       })
     }
-    onOpenChange(false)
+    handleOpenChange(false)
   }
 
   // Partes grouped
@@ -320,7 +321,7 @@ export function NovoProcessoDrawer({
   const testemunhas = partesMock.filter((p) => p.tipo === 'testemunha')
 
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange} modal>
+    <Dialog.Root open={open} onOpenChange={handleOpenChange} modal>
       <Dialog.Portal>
         <Dialog.Backdrop className="fixed inset-0 z-40 bg-zinc-950/80 backdrop-blur-sm" />
         <Dialog.Popup className="fixed inset-y-0 right-0 z-40 flex w-full max-w-2xl flex-col border-l border-zinc-800 bg-zinc-900 shadow-2xl">

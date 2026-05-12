@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { Dialog } from '@base-ui/react/dialog'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/v4'
 import { X } from 'lucide-react'
@@ -105,7 +105,7 @@ export function NovoEventoDrawer({ open, onOpenChange, defaultProcessoId }: Prop
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
@@ -117,7 +117,7 @@ export function NovoEventoDrawer({ open, onOpenChange, defaultProcessoId }: Prop
     },
   })
 
-  const tipoWatched = watch('tipo')
+  const tipoWatched = useWatch({ control, name: 'tipo' }) ?? 'prazo'
   const meta = TIPO_META[tipoWatched]
 
   useEffect(() => {
@@ -133,7 +133,7 @@ export function NovoEventoDrawer({ open, onOpenChange, defaultProcessoId }: Prop
     }
   }, [open, reset, defaultProcessoId])
 
-  function onSubmit(_data: FormData) {
+  function onSubmit() {
     // Mock: apenas fecha o drawer.
     // Backend real implementado no M5 backend.
     onOpenChange(false)

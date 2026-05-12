@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { Dialog } from '@base-ui/react/dialog'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/v4'
 import { X, AlertTriangle, Trash2 } from 'lucide-react'
@@ -156,7 +156,7 @@ export function NovaParteDrawer({
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     reset,
     setValue,
     formState: { errors, isSubmitting },
@@ -187,10 +187,10 @@ export function NovaParteDrawer({
         },
   })
 
-  const tipoWatched = watch('tipo')
-  const statusWatched = watch('status')
-  const situacaoWatched = watch('situacaoPrisional')
-  const cpfWatched = watch('cpf')
+  const tipoWatched = useWatch({ control, name: 'tipo' }) ?? 'cliente'
+  const statusWatched = useWatch({ control, name: 'status' }) ?? 'ativo'
+  const situacaoWatched = useWatch({ control, name: 'situacaoPrisional' })
+  const cpfWatched = useWatch({ control, name: 'cpf' })
 
   const cpfDuplicate = (() => {
     const raw = cpfWatched?.replace(/\D/g, '') ?? ''
@@ -202,7 +202,7 @@ export function NovaParteDrawer({
     if (!open) reset()
   }, [open, reset])
 
-  function onSubmit(_data: FormData) {
+  function onSubmit() {
     // Mock: just close the drawer
     onOpenChange(false)
   }
