@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
-import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { navItemsComBadges } from '@/lib/nav-badges'
 import { NavLink } from './nav-link'
@@ -13,21 +12,12 @@ const HOJE_ANCORA = new Date('2026-05-09T12:00:00')
 
 export function MobileNavTrigger() {
   const [open, setOpen] = useState(false)
-  const pathname = usePathname()
   const items = useMemo(() => navItemsComBadges(HOJE_ANCORA), [])
-
-  // Close drawer on route change
-  useEffect(() => {
-    setOpen(false)
-  }, [pathname])
 
   // Lock body scroll when drawer is open
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
+    if (!open) return
+    document.body.style.overflow = 'hidden'
     return () => {
       document.body.style.overflow = ''
     }
@@ -84,7 +74,7 @@ export function MobileNavTrigger() {
             Menu
           </p>
           {items.map((item) => (
-            <NavLink key={item.href} item={item} />
+            <NavLink key={item.href} item={item} onNavigate={() => setOpen(false)} />
           ))}
         </nav>
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Dialog } from '@base-ui/react/dialog'
 import { AlertTriangle, X, Bell } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -16,29 +16,40 @@ interface Props {
 }
 
 export function MarcarPerdidoModal({ evento, onClose, onConfirm }: Props) {
+  if (!evento) return null
+  return (
+    <MarcarPerdidoModalContent
+      key={evento.id}
+      evento={evento}
+      onClose={onClose}
+      onConfirm={onConfirm}
+    />
+  )
+}
+
+function MarcarPerdidoModalContent({
+  evento,
+  onClose,
+  onConfirm,
+}: {
+  evento: Evento
+  onClose: () => void
+  onConfirm?: (eventoId: string, justificativa: string) => void
+}) {
   const [justificativa, setJustificativa] = useState('')
   const [submitted, setSubmitted] = useState(false)
-
-  useEffect(() => {
-    if (!evento) {
-      setJustificativa('')
-      setSubmitted(false)
-    }
-  }, [evento])
-
-  if (!evento) return null
 
   const valid = justificativa.trim().length >= MIN_CARACTERES
 
   function handleConfirm() {
     setSubmitted(true)
-    if (!valid || !evento) return
+    if (!valid) return
     onConfirm?.(evento.id, justificativa.trim())
     onClose()
   }
 
   return (
-    <Dialog.Root open={!!evento} onOpenChange={(o) => !o && onClose()} modal>
+    <Dialog.Root open onOpenChange={(o) => !o && onClose()} modal>
       <Dialog.Portal>
         <Dialog.Backdrop className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm" />
         <Dialog.Popup className="fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-xl border border-red-500/40 bg-popover shadow-2xl shadow-red-950/40">

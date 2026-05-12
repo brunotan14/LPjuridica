@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { BadgeSigilo } from '@/components/processos/badge-sigilo'
@@ -25,29 +25,44 @@ export function MoverFaseModal({
   novaFase,
   onConfirmar,
 }: MoverFaseModalProps) {
-  const [observacao, setObservacao] = useState('')
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  if (!open || !processo || !faseAtual || !novaFase) return null
+  return (
+    <MoverFaseModalContent
+      key={`${processo.id}-${faseAtual}-${novaFase}`}
+      onClose={onClose}
+      processo={processo}
+      faseAtual={faseAtual}
+      novaFase={novaFase}
+      onConfirmar={onConfirmar}
+    />
+  )
+}
 
-  useEffect(() => {
-    if (open) {
-      setObservacao('')
-      setTimeout(() => textareaRef.current?.focus(), 50)
-    }
-  }, [open])
+function MoverFaseModalContent({
+  onClose,
+  processo,
+  faseAtual,
+  novaFase,
+  onConfirmar,
+}: {
+  onClose: () => void
+  processo: Processo
+  faseAtual: FaseProcessual
+  novaFase: FaseProcessual
+  onConfirmar: (observacao: string) => void
+}) {
+  const [observacao, setObservacao] = useState('')
 
   // Close on Escape
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
-      if (e.key === 'Escape' && open) onClose()
+      if (e.key === 'Escape') onClose()
     }
     document.addEventListener('keydown', handleKey)
     return () => document.removeEventListener('keydown', handleKey)
-  }, [open, onClose])
-
-  if (!open || !processo || !faseAtual || !novaFase) return null
+  }, [onClose])
 
   function handleConfirmar() {
-    if (!processo || !faseAtual || !novaFase) return
     const payload = {
       processoId: processo.id,
       alcunha: processo.alcunha,
@@ -118,7 +133,7 @@ export function MoverFaseModal({
             </label>
             <textarea
               id="observacao-transicao"
-              ref={textareaRef}
+              autoFocus
               value={observacao}
               onChange={(e) => setObservacao(e.target.value.slice(0, 300))}
               placeholder="Observação sobre a transição"
