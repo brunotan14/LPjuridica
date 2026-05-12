@@ -368,7 +368,7 @@ Adicionar `class="dark"` no `<html>` por padrão.
 
 ## M8 — Gestão de Documentos (UI → Backend)
 
-**Branch:** `feat/documentos-ui` → PR aberto (primeira metade concluída)
+**Branch:** `feat/documentos-ui` → UI completa, PR aberto
 **Objetivo:** Upload, categorização, versionamento e log de acesso de documentos por processo, com armazenamento criptografado.
 **Reaproveitamento PipeFlow:** Nenhum — módulo inteiramente novo.
 
@@ -380,10 +380,15 @@ Adicionar `class="dark"` no `<html>` por padrão.
 - [x] Modal "Adicionar documento": arquivo, título (auto-preenchido do nome do arquivo), categoria, checkbox "Documento sigiloso"
 - [x] Badge "Sigiloso" sempre visível ao lado do título na tabela (nunca oculto em tela estreita)
 - [x] Todas as colunas visíveis em qualquer breakpoint — sem responsive hiding
-- [ ] Visualizador inline para PDFs (via signed URL temporária) — segunda metade
-- [ ] Botão "Nova versão": abre upload preservando metadados, incrementa `versao`, mantém histórico — segunda metade
-- [ ] Aba "Histórico de versões" por documento (versão, data, autor) — segunda metade
-- [ ] Aba "Log de acesso" por documento — visível apenas ao Titular (quem viu, baixou, editou e quando) — segunda metade
+- [x] Visualizador inline por tipo de arquivo (`DocumentoDetalheModal` → aba Visualizar): placeholder realista por tipo (PDF indigo, Vídeo roxo, Áudio verde, outros zinc); botão "Baixar X" presente; integração via signed URL no backend
+- [x] Botão "Nova versão" (`NovaVersaoModal`): dropzone + nota opcional; preserva título/categoria/sigilo; incrementa `versaoAtual`, append em `versoes[]` e `acessoLog[]`
+- [x] Aba "Versões" no `DocumentoDetalheModal`: tabela versão / autor / tamanho / data; versão atual destacada em indigo com badge "atual"; ordenada da mais recente para a mais antiga
+- [x] Aba "Log de acesso" no `DocumentoDetalheModal`: banner "Visível apenas ao Titular"; tabela usuário / ação / data; ações coloridas (upload verde, visualização indigo, download âmbar, nova versão azul)
+
+> **Comportamento no backend (a implementar no M8-backend):**
+> - Botão **Download** na tabela → dispara signed URL da versão atual diretamente, sem abrir modal
+> - Botão **Eye** na tabela → abre `DocumentoDetalheModal` com visualizador inline
+> - Aba **Versões** ganhará botão de download por linha → permite baixar qualquer versão histórica
 
 **Testes manuais da interface (validados em `http://localhost:3000/processos/proc-001` → aba Documentos):**
 
@@ -417,11 +422,35 @@ Adicionar `class="dark"` no `<html>` por padrão.
 *Submissão e resultado*
 22. Preencher tudo corretamente e clicar "Adicionar": modal fecha e doc aparece no topo
 23. Novo documento exibe ícone, tamanho, categoria e badge sigiloso conforme selecionado
-24. Botões Eye, Download e UploadCloud clicáveis sem erro (backend pendente)
+24. Botões Eye e Download abrem `DocumentoDetalheModal` na aba Visualizar; UploadCloud abre `NovaVersaoModal`
 
 *Empty state*
 25. `/processos/proc-002` → aba Documentos: exibe empty state com botão "Adicionar documento" centralizado
 26. Clicar no botão do empty state abre o mesmo modal
+
+*Modal de detalhe — Visualizar*
+27. Clicar Eye ou Download em qualquer documento → abre modal com título, tipo e tamanho no header
+28. Aba Visualizar: PDF exibe placeholder com ícone indigo + botão "Baixar pdf"; Vídeo (Gravação) exibe ícone roxo + botão "Baixar vídeo"
+29. Pressionar Escape ou clicar fora fecha o modal
+30. Botão X fecha o modal
+
+*Modal de detalhe — Versões*
+31. Clicar aba "Versões": tabela com histórico de versões
+32. "Memoriais Defensivos" (v2): exibe linha v2 (badge indigo "atual") e linha v1
+33. "Procuração Ad Judicia" (v1): exibe apenas 1 linha; badge indigo com "atual"
+34. Hover na data exibe tooltip com data absoluta dd/mm/yyyy hh:mm
+
+*Modal de detalhe — Log de acesso*
+35. Clicar aba "Log de acesso": banner "Visível apenas ao Titular" + tabela
+36. "Memoriais Defensivos": exibe 3 entradas (upload, nova_versao, download); cores distintas
+37. "Procuração Ad Judicia": exibe 2 entradas (upload, visualizacao)
+
+*Nova versão*
+38. Clicar UploadCloud em qualquer documento → abre `NovaVersaoModal` com título + badge da versão atual
+39. Submeter sem arquivo exibe erro de validação
+40. Selecionar arquivo + clicar "Publicar v2": modal fecha, badge na tabela atualiza para v2
+41. Abrir modal de detalhe → aba Versões: exibe v1 e v2; v2 marcada como "atual"
+42. Aba Log de acesso: nova entrada "Nova versão" no topo
 
 **Banco de dados:**
 - [ ] Migration: tabela `documentos` com RLS por `office_id`
