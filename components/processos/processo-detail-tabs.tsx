@@ -32,6 +32,7 @@ import { AdicionarDocumentoModal } from '@/components/documentos/adicionar-docum
 import { DocumentoDetalheModal } from '@/components/documentos/documento-detalhe-modal'
 import { NovaVersaoModal } from '@/components/documentos/nova-versao-modal'
 import { getDocumentosByProcesso } from '@/lib/data/documentos'
+import { FinanceiroTab } from '@/components/financeiro/financeiro-tab'
 import type { Processo } from '@/types/processos'
 import type { Andamento } from '@/types/andamentos'
 import type { Evento } from '@/types/agenda'
@@ -46,27 +47,6 @@ const TABS = [
 ] as const
 
 type TabId = (typeof TABS)[number]['id']
-
-// ─── Placeholder tab ──────────────────────────────────────────────────────────
-function PlaceholderTab({
-  icon: Icon,
-  title,
-  milestone,
-}: {
-  icon: React.ComponentType<{ className?: string }>
-  title: string
-  milestone: string
-}) {
-  return (
-    <div className="flex flex-col items-center justify-center py-16 text-center">
-      <div className="flex size-12 items-center justify-center rounded-full bg-zinc-800">
-        <Icon className="size-6 text-zinc-600" />
-      </div>
-      <p className="mt-4 text-sm font-medium text-zinc-400">{title}</p>
-      <p className="mt-1 text-xs text-zinc-600">{milestone}</p>
-    </div>
-  )
-}
 
 // ─── Resumo Tab ───────────────────────────────────────────────────────────────
 function ResumoTab({ processo }: { processo: Processo }) {
@@ -561,13 +541,7 @@ export function ProcessoDetailTabs({ processo }: ProcessoDetailTabsProps) {
         {activeTab === 'resumo' && <ResumoTab processo={processo} />}
         {activeTab === 'timeline' && <TimelineTab processo={processo} />}
         {activeTab === 'documentos' && <DocumentosTab processo={processo} />}
-        {activeTab === 'financeiro' && (
-          <PlaceholderTab
-            icon={Banknote}
-            title="Módulo financeiro"
-            milestone="Disponível em breve (M9)"
-          />
-        )}
+        {activeTab === 'financeiro' && <FinanceiroTab processo={processo} />}
         {activeTab === 'prazos' && <PrazosTab processo={processo} />}
       </div>
     </div>
