@@ -27,9 +27,13 @@ import { MarcarCumpridoModal } from '@/components/agenda/marcar-cumprido-modal'
 import { MarcarPerdidoModal } from '@/components/agenda/marcar-perdido-modal'
 import { NovoEventoDrawer } from '@/components/agenda/novo-evento-drawer'
 import { getEventosByProcesso } from '@/lib/data/agenda'
+import { DocumentosTable } from '@/components/documentos/documentos-table'
+import { AdicionarDocumentoModal } from '@/components/documentos/adicionar-documento-modal'
+import { getDocumentosByProcesso } from '@/lib/data/documentos'
 import type { Processo } from '@/types/processos'
 import type { Andamento } from '@/types/andamentos'
 import type { Evento } from '@/types/agenda'
+import type { Documento } from '@/types/documentos'
 
 const TABS = [
   { id: 'resumo', label: 'Resumo', icon: Scale },
@@ -447,6 +451,70 @@ function PrazosTab({ processo }: { processo: Processo }) {
   )
 }
 
+// ─── Documentos Tab ───────────────────────────────────────────────────────────
+
+function DocumentosTab({ processo }: { processo: Processo }) {
+  const [documentos, setDocumentos] = useState<Documento[]>(
+    () => getDocumentosByProcesso(processo.id),
+  )
+  const [modalAberto, setModalAberto] = useState(false)
+
+  function handleAdicionar(novoDoc: Documento) {
+    setDocumentos((prev) => [novoDoc, ...prev])
+    setModalAberto(false)
+  }
+
+  function handleVisualizar(doc: Documento) {
+    // UI-only: integração com signed URL no backend (M8)
+    console.log('Visualizar:', doc.titulo)
+  }
+
+  function handleBaixar(doc: Documento) {
+    // UI-only: integração com signed URL no backend (M8)
+    console.log('Baixar:', doc.titulo)
+  }
+
+  function handleNovaVersao(doc: Documento) {
+    // UI-only: modal de nova versão na segunda metade do M8
+    console.log('Nova versão:', doc.titulo)
+  }
+
+  return (
+    <>
+      {modalAberto && (
+        <AdicionarDocumentoModal
+          processoId={processo.id}
+          onAdicionar={handleAdicionar}
+          onFechar={() => setModalAberto(false)}
+        />
+      )}
+
+      <div className="space-y-4">
+        {/* Header */}
+        {documentos.length > 0 && (
+          <div className="flex justify-end">
+            <button
+              onClick={() => setModalAberto(true)}
+              className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500"
+            >
+              <FileText className="size-4" />
+              Adicionar documento
+            </button>
+          </div>
+        )}
+
+        <DocumentosTable
+          documentos={documentos}
+          onAdicionar={() => setModalAberto(true)}
+          onVisualizar={handleVisualizar}
+          onBaixar={handleBaixar}
+          onNovaVersao={handleNovaVersao}
+        />
+      </div>
+    </>
+  )
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 interface ProcessoDetailTabsProps {
   processo: Processo
@@ -483,13 +551,7 @@ export function ProcessoDetailTabs({ processo }: ProcessoDetailTabsProps) {
       <div className="p-6">
         {activeTab === 'resumo' && <ResumoTab processo={processo} />}
         {activeTab === 'timeline' && <TimelineTab processo={processo} />}
-        {activeTab === 'documentos' && (
-          <PlaceholderTab
-            icon={FileText}
-            title="Gestão de documentos"
-            milestone="Disponível em breve (M8)"
-          />
-        )}
+        {activeTab === 'documentos' && <DocumentosTab processo={processo} />}
         {activeTab === 'financeiro' && (
           <PlaceholderTab
             icon={Banknote}
