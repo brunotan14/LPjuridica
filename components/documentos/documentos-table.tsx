@@ -14,7 +14,6 @@ import {
   UploadCloud,
   FolderOpen,
 } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { formatarTamanho, CATEGORIAS_LABEL } from '@/lib/data/documentos'
 import type { Documento } from '@/types/documentos'
 
