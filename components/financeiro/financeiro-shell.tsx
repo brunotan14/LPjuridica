@@ -155,12 +155,8 @@ function InadimplenciaDetalhe({ parcelas }: { parcelas: Parcela[] }) {
             </tr>
           </thead>
           <tbody className="divide-y divide-red-500/10">
-            {atrasadas
-              .sort((a, b) => {
-                const da = diasAtraso(a.vencimento)
-                const db = diasAtraso(b.vencimento)
-                return db - da
-              })
+            {[...atrasadas]
+              .sort((a, b) => diasAtraso(b.vencimento) - diasAtraso(a.vencimento))
               .map((p) => (
                 <tr key={p.id}>
                   <td className="px-4 py-2.5 font-medium text-zinc-200">{p.clienteNome}</td>
@@ -283,7 +279,7 @@ function TabelaParcelas({ parcelas }: { parcelas: Parcela[] }) {
                 </td>
               </tr>
             )}
-            {filtradas
+            {[...filtradas]
               .sort((a, b) => a.vencimento.localeCompare(b.vencimento))
               .map((p) => (
                 <tr key={p.id} className="transition-colors hover:bg-zinc-900/60">
