@@ -29,6 +29,8 @@ import { NovoEventoDrawer } from '@/components/agenda/novo-evento-drawer'
 import { getEventosByProcesso } from '@/lib/data/agenda'
 import { DocumentosTable } from '@/components/documentos/documentos-table'
 import { AdicionarDocumentoModal } from '@/components/documentos/adicionar-documento-modal'
+import { DocumentoDetalheModal } from '@/components/documentos/documento-detalhe-modal'
+import { NovaVersaoModal } from '@/components/documentos/nova-versao-modal'
 import { getDocumentosByProcesso } from '@/lib/data/documentos'
 import type { Processo } from '@/types/processos'
 import type { Andamento } from '@/types/andamentos'
@@ -458,25 +460,17 @@ function DocumentosTab({ processo }: { processo: Processo }) {
     () => getDocumentosByProcesso(processo.id),
   )
   const [modalAberto, setModalAberto] = useState(false)
+  const [documentoDetalhe, setDocumentoDetalhe] = useState<Documento | null>(null)
+  const [documentoNovaVersao, setDocumentoNovaVersao] = useState<Documento | null>(null)
 
   function handleAdicionar(novoDoc: Documento) {
     setDocumentos((prev) => [novoDoc, ...prev])
     setModalAberto(false)
   }
 
-  function handleVisualizar(doc: Documento) {
-    // UI-only: integração com signed URL no backend (M8)
-    console.log('Visualizar:', doc.titulo)
-  }
-
-  function handleBaixar(doc: Documento) {
-    // UI-only: integração com signed URL no backend (M8)
-    console.log('Baixar:', doc.titulo)
-  }
-
-  function handleNovaVersao(doc: Documento) {
-    // UI-only: modal de nova versão na segunda metade do M8
-    console.log('Nova versão:', doc.titulo)
+  function handleNovaVersao(docAtualizado: Documento) {
+    setDocumentos((prev) => prev.map((d) => (d.id === docAtualizado.id ? docAtualizado : d)))
+    setDocumentoNovaVersao(null)
   }
 
   return (
@@ -486,6 +480,21 @@ function DocumentosTab({ processo }: { processo: Processo }) {
           processoId={processo.id}
           onAdicionar={handleAdicionar}
           onFechar={() => setModalAberto(false)}
+        />
+      )}
+
+      {documentoDetalhe && (
+        <DocumentoDetalheModal
+          documento={documentoDetalhe}
+          onFechar={() => setDocumentoDetalhe(null)}
+        />
+      )}
+
+      {documentoNovaVersao && (
+        <NovaVersaoModal
+          documento={documentoNovaVersao}
+          onNovaVersao={handleNovaVersao}
+          onFechar={() => setDocumentoNovaVersao(null)}
         />
       )}
 
@@ -506,9 +515,9 @@ function DocumentosTab({ processo }: { processo: Processo }) {
         <DocumentosTable
           documentos={documentos}
           onAdicionar={() => setModalAberto(true)}
-          onVisualizar={handleVisualizar}
-          onBaixar={handleBaixar}
-          onNovaVersao={handleNovaVersao}
+          onVisualizar={(doc) => setDocumentoDetalhe(doc)}
+          onBaixar={(doc) => setDocumentoDetalhe(doc)}
+          onNovaVersao={(doc) => setDocumentoNovaVersao(doc)}
         />
       </div>
     </>
