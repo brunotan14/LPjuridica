@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useTransition } from 'react'
+import { useState, useCallback, useTransition, useEffect } from 'react'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import {
@@ -105,7 +105,7 @@ export function PartesTable({ partes }: PartesTableProps) {
   const searchParams = useSearchParams()
   const [, startTransition] = useTransition()
 
-  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(() => searchParams.get('nova') === 'true')
   const [editingParte, setEditingParte] = useState<Parte | undefined>(undefined)
   const [search, setSearch] = useState('')
 
@@ -114,6 +114,15 @@ export function PartesTable({ partes }: PartesTableProps) {
     | 'todos'
     | SituacaoPrisional
   const page = parseInt(searchParams.get('page') ?? '1', 10)
+
+  useEffect(() => {
+    if (searchParams.get('nova') === 'true') {
+      const params = new URLSearchParams(searchParams.toString())
+      params.delete('nova')
+      const qs = params.toString()
+      router.replace(`${pathname}${qs ? `?${qs}` : ''}`)
+    }
+  }, [searchParams, pathname, router])
 
   const setParam = useCallback(
     (key: string, value: string) => {
