@@ -517,34 +517,49 @@ Adicionar `class="dark"` no `<html>` por padrão.
 
 ## M10 — Dashboard Executivo (UI → Backend)
 
-**Branch:** `feat/dashboard`
+**Branch:** `feat/dashboard` → PR aberto em 2026-05-14 (aguardando review)
 **Objetivo:** Dashboard com visão consolidada: prazos críticos, audiências, distribuição por fase e faturamento.
 **Reaproveitamento PipeFlow:** Estrutura de KPIs + Recharts + Suspense por seção do M7. Métricas são novas.
 
 **Interface primeiro:**
-- [ ] Criar página `/dashboard` com grid responsivo
-- [ ] **KPIs superiores:**
-  - Processos ativos (count)
-  - Audiências esta semana (count)
+- [x] Criar página `/dashboard` com grid responsivo
+- [x] **KPIs superiores:**
+  - Processos ativos (count — via `processosMock`, excluindo arquivados)
+  - Audiências esta semana (count — via `eventosMock`)
   - Prazos nos próximos 7 dias — destaque vermelho se houver D-1 ou do dia
-  - Inadimplência total (R$)
-- [ ] **Seção "Próximas Audiências"**: data, hora, comarca/vara, processo (alcunha), cliente
-- [ ] **Seção "Prazos Críticos"** (substituir widget placeholder do M5):
+  - Inadimplência total (R$ — soma de parcelas `atrasado` via `parcelasMock`)
+- [x] **Seção "Próximas Audiências"**: data, hora, local/vara, processo (alcunha)
+- [x] **Seção "Prazos Críticos"** (substituindo widget placeholder do M5):
   - Ordenada por proximidade
   - Vermelho pulsante para vencendo hoje
   - Vermelho para D-1
   - Âmbar para D-3 a D-7
-- [ ] **Distribuição por Fase** — gráfico de barras horizontais (Recharts) com total de processos por fase
-- [ ] **Card Faturamento do Mês** — valor recebido + comparativo mês anterior
-- [ ] **Atalhos rápidos**: + Novo Processo, + Novo Prazo, + Nova Parte
-- [ ] Saudação personalizada: "Bom dia, Dr. Leandro" (com período do dia)
-- [ ] Skeleton loading para todos os cards
+- [x] **Distribuição por Fase** — gráfico de barras horizontais (Recharts) com total por fase
+- [x] **Card Faturamento do Mês** — valor recebido + comparativo mês anterior com badge de %
+- [x] **Atalhos rápidos**: + Novo Processo, + Novo Prazo, + Nova Parte
+  - Novo Processo → navega para `/processos` e abre o drawer automaticamente
+  - Novo Prazo → navega para `/agenda?novo=prazo`
+  - Nova Parte → navega para `/partes` e abre o drawer automaticamente
+- [x] Saudação personalizada: "Bom dia/Boa tarde/Boa noite, Dr. Leandro"
+- [x] Skeleton loading exportado para todos os cards (ativo no backend com Suspense)
 
 **Backend:**
 - [ ] Queries agregadas para cada KPI, escopadas por `office_id` via RLS
 - [ ] Server Component com Suspense por bloco (KPIs, audiências, prazos, gráfico, financeiro)
 - [ ] Cache de 60s em queries pesadas (gráfico de fase, faturamento)
 - [ ] Badge da sidebar atualizado com count real de prazos do dia
+
+**Testes manuais obrigatórios** — executar antes do merge:
+1. **Dashboard carrega sem erro:** acessar `/dashboard` e verificar que todos os cards aparecem (KPIs, audiências, prazos, gráfico, faturamento)
+2. **Saudação correta:** verificar que exibe "Bom dia", "Boa tarde" ou "Boa noite" conforme o horário atual
+3. **KPI Inadimplência:** valor exibido deve ser em R$ e maior que zero (há parcelas atrasadas no mock)
+4. **KPI Prazos 7 dias:** se exibir número > 0, o card deve ficar com borda vermelha
+5. **Atalho + Novo Processo:** clicar no botão no dashboard → deve navegar para `/processos` com o drawer de criação aberto automaticamente
+6. **Atalho + Nova Parte:** clicar no botão no dashboard → deve navegar para `/partes` com o drawer de criação aberto automaticamente
+7. **Atalho + Novo Prazo:** clicar no botão → deve navegar para `/agenda`
+8. **Gráfico de fases:** barras horizontais visíveis para cada fase processual com tooltip ao passar o mouse
+9. **Card Faturamento:** exibir valor do mês atual + badge verde/vermelho de variação percentual vs mês anterior
+10. **Responsividade:** testar em tela estreita (mobile) — KPIs devem empilhar em 2 colunas, atalhos devem quebrar linha
 
 **Commit final:** `feat: executive dashboard with KPIs, deadlines, hearings and phase distribution`
 
