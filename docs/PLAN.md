@@ -567,33 +567,74 @@ Adicionar `class="dark"` no `<html>` por padrão.
 
 ## M11 — Notificações Push Mobile (UI → Backend)
 
-**Branch:** `feat/push-notifications`
+**Branch:** `feat/push-notifications` → PR aberto em 2026-05-14 (aguardando review)
 **Objetivo:** Alertas de prazo no celular via Web Push API. Crítico para uso fora do escritório.
 **Reaproveitamento PipeFlow:** Nenhum — módulo inteiramente novo.
 
 **Interface primeiro:**
-- [ ] Criar Service Worker em `public/sw.js` (intercepta push, exibe notificação)
-- [ ] Componente `PushPermissionPrompt` — banner discreto na primeira visita após login:
-  - Explica a importância (prazos processuais vencem mesmo offline)
-  - Botão "Ativar alertas" e link "Agora não"
-- [ ] Aba "Notificações" em `/configuracoes`:
-  - Status atual (ativadas / desativadas)
-  - Toggle por tipo: prazo D-7, D-3, D-1, do dia, audiências, mudanças de status
-  - Botão "Testar notificação" (envia push imediato de teste)
-  - Botão "Desativar notificações" (revoga a subscription)
+- [x] Criar Service Worker em `public/sw.js` (intercepta push, exibe notificação, navega ao clicar)
+- [x] Componente `PushPermissionPrompt` — banner discreto injetado em `app/(app)/layout.tsx`:
+  - Aparece em qualquer rota EXCETO `/configuracoes/*` (evita duplicação com a tab)
+  - Botão "Ativar alertas" dispara `Notification.requestPermission()` e registra o SW
+  - Link "Agora não" persiste decisão em `localStorage` (`lp_push_dismissed`)
+- [x] Hook `usePushPermission()` centraliza estado da permissão:
+  - Detecta suporte do browser (Notification + serviceWorker)
+  - Lê `Notification.permission` e o flag dismissed
+  - Re-registra o SW em toda visita quando `status === 'granted'` (pega updates)
+  - `try/catch` em todas as chamadas (Notification, localStorage para modo anônimo)
+- [x] Aba "Notificações" em `/configuracoes`:
+  - Página refatorada de cards estáticos para layout com tabs (Escritório, Notificações, Equipe, Segurança)
+  - Card de status atual (Ativadas/Desativadas) com botão "Ativar" quando aplicável
+  - Toggles por tipo: D-7, D-3, D-1, dia, audiência, mudança de status
+  - Toggles persistidos em `localStorage` (`lp_push_toggles`) — backend depois migra para Supabase
+  - Botão "Testar notificação" usa `serviceWorker.ready` + `reg.showNotification()` (mesmo caminho do push real)
+  - Botão "Desativar todas" zera todos os toggles
+- [x] Service Worker (`public/sw.js`):
+  - Event `push`: exibe notificação via `self.registration.showNotification`
+  - Event `notificationclick`: foca aba existente E navega para `targetUrl` (com `client.navigate()`)
+  - Sem refs a `icon`/`badge` por enquanto — browser usa favicon como fallback até design entregar PNGs
+
+**Pendências para o backend do M11:**
+- O hook chama `Notification.requestPermission()` mas ainda **não** envia a subscription para o servidor
+  - Adicionar `pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: VAPID_PUBLIC_KEY })` após permissão concedida
+  - Postar a subscription resultante para a server action `salvarSubscription`
+- `enviarTeste` exibe localmente; precisa virar request para `/api/push/test` que dispara via `web-push`
+- Toggles em `localStorage` precisam virar coluna `notification_preferences` (JSON) na tabela `user_settings`
+- Hidratar toggles do servidor no carregamento da aba
 
 **Banco de dados:**
 - [ ] Migration: tabela `push_subscriptions` (`user_id`, `endpoint`, `p256dh`, `auth`, `created_at`, `active`)
+- [ ] Migration: coluna `notification_preferences` (JSONB) em `user_settings` para persistir os toggles
 
 **Backend:**
 - [ ] Server Action `salvarSubscription(subscription)`: persiste no banco vinculada ao user
 - [ ] Server Action `revogarSubscription()`: marca como inativa
+- [ ] Server Action `salvarPreferencias(toggles)`: persiste no `user_settings.notification_preferences`
 - [ ] Integrar `web-push` no cron de alertas do M5:
   - Para cada alerta gerado, buscar subscriptions ativas do responsável
+  - Respeitar `notification_preferences` antes de disparar (ex: se D-7 está off, pular)
   - Disparar push em paralelo ao e-mail (Promise.allSettled para não bloquear)
   - Subscription inválida (410 Gone) → marcar `active = false` automaticamente
 - [ ] Configurar VAPID keys em variáveis de ambiente (`VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`)
 - [ ] Endpoint de teste em `app/api/push/test/route.ts`
+- [ ] **Ícones PNG** (192×192 e 72×72): gerar do `LPMonogram` e re-adicionar refs em `sw.js`
+
+**Testes manuais obrigatórios** — executar antes do merge:
+
+*Pré-condição:* resetar permissão de notificação do site em **Configurações > Privacidade** do browser para começar limpo.
+
+1. **Banner em página comum:** acessar `/dashboard` com permissão limpa → banner azul aparece no topo
+2. **Banner ausente em configurações:** acessar `/configuracoes` → banner NÃO aparece (evita duplicidade)
+3. **Dismiss persistido:** clicar "Agora não" → banner some → refresh → continua sumido
+4. **Fluxo aceitar:** clicar "Ativar alertas" → aceitar no diálogo nativo → banner some, tab Notificações mostra "Ativadas"
+5. **Fluxo negar:** resetar permissão, clicar "Ativar alertas" → bloquear → tab mostra "Desativadas" sem botão "Ativar"
+6. **Toggles desabilitados:** com permissão `denied`, toggles ficam opacos e não clicáveis
+7. **Toggles persistidos:** com permissão `granted`, mudar qualquer toggle → refresh → estado mantido
+8. **Desativar todas persistido:** clicar "Desativar todas" → refresh → todos continuam off
+9. **Notificação de teste:** clicar "Testar notificação" → notificação nativa aparece no SO; botão muda para "Enviado!" por 3s
+10. **Click na notificação:** clicar na notificação exibida → app foca aba existente e navega para `/dashboard`
+11. **SW em retorno:** após ativação, fechar todas as abas → reabrir → DevTools > Application > Service Workers → SW deve estar "activated"
+12. **SW idempotente:** editar `sw.js` localmente → hard refresh → DevTools mostra a nova versão sendo instalada
 
 **Commit final:** `feat: web push notifications for deadline alerts`
 
