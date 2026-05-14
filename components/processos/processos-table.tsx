@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useTransition } from 'react'
+import { useState, useCallback, useTransition, useEffect } from 'react'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import {
@@ -82,13 +82,22 @@ export function ProcessosTable({ processos }: ProcessosTableProps) {
   const searchParams = useSearchParams()
   const [, startTransition] = useTransition()
 
-  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(() => searchParams.get('novo') === 'true')
   const [editingProcesso, setEditingProcesso] = useState<Processo | undefined>(undefined)
   const [search, setSearch] = useState('')
 
   const activeTab = (searchParams.get('tab') ?? 'todos') as 'todos' | FaseProcessual
   const sigiloFilter = (searchParams.get('sigilo') ?? 'todos') as 'todos' | NivelSigilo
   const page = parseInt(searchParams.get('page') ?? '1', 10)
+
+  useEffect(() => {
+    if (searchParams.get('novo') === 'true') {
+      const params = new URLSearchParams(searchParams.toString())
+      params.delete('novo')
+      const qs = params.toString()
+      router.replace(`${pathname}${qs ? `?${qs}` : ''}`)
+    }
+  }, [searchParams, pathname, router])
 
   const setParam = useCallback(
     (key: string, value: string) => {
